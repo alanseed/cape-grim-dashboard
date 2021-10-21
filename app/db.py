@@ -32,10 +32,11 @@ def init_db():
     username = 'admin'
     password = 'admin'
     role = 'admin'
+    email = 'guest@example.com'
     try:
         db.execute(
-            "INSERT INTO user (username, password,role) VALUES (?, ?, ?)",
-            (username, generate_password_hash(password),role),
+            "INSERT INTO user (username, email, role, password) VALUES (?, ?, ?, ?)",
+            (username, email, role, generate_password_hash(password)),
         )
         db.commit()
     except db.IntegrityError:
