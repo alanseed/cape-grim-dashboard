@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, current_app
 
 def create_app(test_config=None):
     # create and configure the app
@@ -23,9 +23,9 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    @app.route('/')
+    def home_page():
+        return current_app.send_static_file('index.html')
 
     from . import db
     db.init_app(app) 
