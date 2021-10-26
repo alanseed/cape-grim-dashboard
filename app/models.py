@@ -1,13 +1,15 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()  # <--- The db object belonging to the blueprint
+from sqlalchemy import Column, Integer, String 
+from sqlalchemy.types import Date 
+from .database import Base 
 
-class User(db.Model):
+
+class User(Base):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
-    role = db.Column(db.String(20) )
-    password_hash = db.Column(db.String(128))
+    id = Column(Integer, primary_key=True)
+    username = Column(String(64), index=True, unique=True)
+    email = Column(String(120), index=True, unique=True)
+    role = Column(String(20) )
+    password_hash = Column(String(128))
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

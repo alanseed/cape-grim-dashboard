@@ -2,17 +2,16 @@ import os
 from flask import Flask, current_app,g
 from flask_sqlalchemy import SQLAlchemy 
 from .auth import bp as bp
-from .models import db as db
-
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'cg-user.sqlite'),
+        DATABASE=os.path.join(app.instance_path, 'cg-dashboard.sqlite'),
     )
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(app.instance_path, 'cg-user.sqlite') 
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(app.instance_path, 'cg-dashboard.sqlite') 
+    from . import db
     db.init_app(app)
 
     if test_config is None:
