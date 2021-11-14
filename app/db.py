@@ -42,7 +42,6 @@ def init_db():
     except db.IntegrityError:
         error = f"User {username} is already registered."
 
-    
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
@@ -53,3 +52,10 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+class User:
+    def __init__(self, username, email):
+        self.username = username 
+        self.email = email 
+        self.role = 'guest'
+        self.password = ' '

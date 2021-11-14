@@ -1,47 +1,43 @@
-import functools
-
+from flask_login import LoginManager, current_user, login_user
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.db import get_db 
+from app.forms import LoginForm, RegistrationForm
+import functools
+from . import app 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+    form = RegistrationForm()
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        role = 'guest'
-        email = 'guest@example.com'
-        db = get_db()
-        error = None
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
 
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
-
-        if error is None:
+        if form.validate_on_submit():
+            db = get_db()
             try:
                 db.execute(
                     "INSERT INTO user (username, email,role,password) VALUES (?, ?, ?,?)",
-                    (username, email, role, generate_password_hash(password)),
+                    (form.username.data, form.email.data, "guest", generate_password_hash(form.password.data)),
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {username} is already registered."
+                error = f"User {form.username.data} is already registered."
             else:
                 return redirect(url_for("auth.login"))
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html',form=form)
 
-        flash(error)
-
-    return render_template('auth/register.html') 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    form = LoginForm()
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -59,12 +55,20 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect('/')
-            # return current_app.send_static_file('index.html')
+            return current_app.send_static_file('index.html')
 
         flash(error)
 
     return render_template('auth/login.html') 
+
+
+@login_manager.user_loader
+def load_user(user_id):
+
+
+
+
+    return User.get(user_id)
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -80,7 +84,7 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect('index.html') 
+    return redirect(url_for('auth.login'))
 
 def login_required(view):
     @functools.wraps(view)

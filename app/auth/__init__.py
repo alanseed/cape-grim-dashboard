@@ -1,6 +1,10 @@
 import os
-from flask import Flask
+from flask import Flask, current_app
+from flask_login import LoginManager, current_user 
 from app.auth import bp as auth_bp 
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
 
 def create_app(test_config=None):
     # create and configure the app
@@ -33,6 +37,6 @@ def create_app(test_config=None):
     db.init_app(app) 
     
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    login_manager.init_app(app) 
+    login_manager.init_app(app)
 
     return app
