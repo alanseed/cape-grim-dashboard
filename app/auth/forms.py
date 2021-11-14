@@ -17,18 +17,16 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        sql = f"SELECT * FROM user WHERE username = '{username}'" 
+        user = db.execute(sql).fetchone()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
     def validate_email(self, email):
         db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE email = ?', (email,)
-        ).fetchone()
+        sql = f"SELECT * FROM user WHERE email = '{email}'"
+        user = db.execute(sql).fetchone()
 
         if user is not None:
             raise ValidationError('Please use a different email address.')

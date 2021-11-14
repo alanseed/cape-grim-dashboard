@@ -1,13 +1,12 @@
-from flask_login import LoginManager, current_user, login_user
+from flask_login import LoginManager, current_user, login_manager, login_user
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.db import get_db 
-from app.forms import LoginForm, RegistrationForm
+from app.db import get_db, User 
+from app.auth.forms import LoginForm, RegistrationForm
 import functools
-from . import app 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -41,6 +40,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
         db = get_db()
         error = None
         user = db.execute(
@@ -60,15 +60,6 @@ def login():
         flash(error)
 
     return render_template('auth/login.html') 
-
-
-@login_manager.user_loader
-def load_user(user_id):
-
-
-
-
-    return User.get(user_id)
 
 @bp.before_app_request
 def load_logged_in_user():

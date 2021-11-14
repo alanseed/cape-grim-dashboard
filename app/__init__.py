@@ -1,6 +1,23 @@
 import os
 from flask import Flask
-from app.auth import bp as auth_bp 
+from app.auth.auth import bp as auth_bp 
+import os
+from flask import Flask, current_app
+from flask_login import LoginManager
+from . import db 
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+
+@login_manager.user_loader 
+def load_user(user_id):
+    return get_user(user_id)
+
+def get_user(user_id): 
+    user = db.execute(
+        'SELECT * FROM user WHERE id = ?', (user_id,)
+    ).fetchone()
+    return user
 
 def create_app(test_config=None):
     # create and configure the app
@@ -29,10 +46,10 @@ def create_app(test_config=None):
     def home_page():
         return current_app.send_static_file('index.html')
 
-    from . import db
+ 
     db.init_app(app) 
     
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_bp)
     login_manager.init_app(app) 
 
     return app
