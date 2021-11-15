@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from app.auth.auth import bp as auth_bp 
 import os
 from flask import Flask, current_app
@@ -40,13 +40,11 @@ def create_app(test_config=None):
     except FileExistsError:
         pass
 
-
-    # a simple page that says hello
+    # home page 
     @app.route('/')
     def home_page():
-        return current_app.send_static_file('index.html')
+        return render_template('main/index.html')
 
- 
     db.init_app(app) 
     
     app.register_blueprint(auth_bp)

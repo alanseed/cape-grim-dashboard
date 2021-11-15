@@ -4,7 +4,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.db import get_db, User 
+from app.db import get_db, add_user, User 
 from app.auth.forms import LoginForm, RegistrationForm
 import functools
 
@@ -18,22 +18,17 @@ def register():
             return redirect(url_for('index'))
 
         if form.validate_on_submit():
-            db = get_db()
-            try:
-                db.execute(
-                    "INSERT INTO user (username, email,role,password) VALUES (?, ?, ?,?)",
-                    (form.username.data, form.email.data, "guest", generate_password_hash(form.password.data)),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {form.username.data} is already registered."
+            error = add_user(form.username.data, form.password.data, "guest", form.email.data)
+            if error != None:
+                flash(error)
             else:
+                flash('Congratulations, you are now a registered user!')
                 return redirect(url_for("auth.login"))
-        flash('Congratulations, you are now a registered user!')
+        
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
 
-
+# save the user id in the session and the user details in g 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     form = LoginForm()
@@ -43,38 +38,44 @@ def login():
 
         db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        sql = f"SELECT * FROM user WHERE username = '{username}'"
+        user = db.execute(sql).fetchone()
 
         if user is None:
             error = 'Incorrect username.'
+            g.user = None
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
+            g.user = None
 
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return current_app.send_static_file('index.html')
+            g.user = None
+            g.user = User(user['id']) 
+            return render_template('main/index.html')
 
         flash(error)
+        return redirect(url_for('/'))
 
     return render_template('auth/login.html') 
 
 @bp.before_app_request
 def load_logged_in_user():
+    g.user = None 
     user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone() 
+    if user_id is not None:
+        sql = f"SELECT * FROM user WHERE id = '{user_id}'"
+        user = get_db().execute(sql).fetchone() 
+        if user is None:
+            session['user_id'] = None
+        else:            
+            g.user = User(user_id)     
 
 @bp.route('/logout')
 def logout():
     session.clear()
+    g.user = None 
     return redirect(url_for('auth.login'))
 
 def login_required(view):
