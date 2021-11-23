@@ -25,8 +25,8 @@ CREATE_TABLE obs_names(
 
 CREATE TABLE charts ( 
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  show INTEGER NOT NULL,
   char_name TEXT NOT NULL, 
+  show INTEGER NOT NULL,
   obs_list TEXT NOT NULL,
   title TEXT, 
   time_format TEXT,
