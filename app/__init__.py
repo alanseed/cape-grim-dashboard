@@ -24,7 +24,10 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
+        USERNAME='admin',
+        PASSWORD='admin',
         DATABASE=os.path.join(app.instance_path, 'cg-dashboard.sqlite'),
+        DATADIR=os.path.join(app.instance_path, 'cg-dashboard.sqlite'),
     )
 
     if test_config is None:
