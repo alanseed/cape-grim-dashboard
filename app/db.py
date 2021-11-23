@@ -68,6 +68,10 @@ def is_valid_id(userid):
         return False
     else:
         return True     
+
+# Read the list of observations and put them into the obs_table 
+def add_observations():
+    return 
  
 @click.command('init-db')
 @with_appcontext

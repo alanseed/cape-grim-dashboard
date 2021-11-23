@@ -19,9 +19,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 chart_spec_name = os.path.join(dir_path, "CBAPS_Daily_Reports.csv")
 data_path = os.path.normpath(os.path.join(dir_path, "../data"))
 chart_config_name = os.path.normpath(os.path.join(
-    dir_path, "../app/static/chart_config.csv"))
+    dir_path, "../app/chart_config.csv"))
 obs_list_name = os.path.normpath(os.path.join(
-    dir_path, "../app/static/obs_list.csv"))
+    dir_path, "../app/obs_list.csv"))
 
 # get the list of the files
 print(f"Reading the files in {data_path}")
@@ -72,10 +72,10 @@ for ia in range(len(chart_spec_df)):
             break
 
     if this_chart == None:
-        # did not find the chart name in the data files
+        # did not find the chart name in the data files so disable it
         chart_spec_df.iloc[ia, 1] = 0
     else:
-        # did not find obs in data files so disable this chart
+        # did not find obs for this chart in data files so disable it
         if len(this_chart["obs"]) == 0:
             chart_spec_df.iloc[ia, 1] = 0
         else:
