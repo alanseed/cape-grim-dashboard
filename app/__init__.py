@@ -1,9 +1,8 @@
 import os
-from flask import Flask, render_template
-from app.auth.auth import bp as auth_bp 
-import os
-from flask import Flask, current_app
+from flask import Flask, render_template, current_app, redirect, url_for
 from flask_login import LoginManager
+from app.auth.auth import bp as auth_bp 
+from app.main.main import bp as main_bp 
 from . import db 
 
 login_manager = LoginManager()
@@ -44,11 +43,12 @@ def create_app(test_config=None):
     # home page 
     @app.route('/')
     def home_page():
-        return render_template('main/index.html')
+        return redirect(url_for('main.index'))
 
     db.init_app(app) 
     
     app.register_blueprint(auth_bp)
+    app.register_blueprint(main_bp)
     login_manager.init_app(app) 
 
     return app
