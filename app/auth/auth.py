@@ -3,10 +3,10 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-
-from app.db import get_db, add_user, User 
+from app.db import get_db, add_user, get_user_id, is_valid_user, User 
 from app.auth.forms import LoginForm, RegistrationForm
 import functools
+from bson.objectid import ObjectId
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -32,45 +32,38 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     form = LoginForm()
+    error = None 
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        db = get_db()
-        error = None
-        sql = f"SELECT * FROM user WHERE username = '{username}'"
-        user = db.execute(sql).fetchone()
-
-        if user is None:
-            error = 'Incorrect username.'
-            g.user = None
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
-            g.user = None
+        username = str(request.form['username'])
+        password = str(request.form['password'])
+        error = is_valid_user(username, password)
 
         if error is None:
+            user_id = get_user_id(username)
             session.clear()
-            session['user_id'] = user['id']
-            g.user = None
-            g.user = User(user['id']) 
+            session['user_id'] = user_id
+            g.user = User(user_id) 
             return render_template('main/index.html')
 
         flash(error)
-        return redirect(url_for('/'))
-
+        return render_template('auth/login.html')
     return render_template('auth/login.html') 
 
+# check if session["user_id"] is valid 
+# if not then set session["user_id"] to None 
 @bp.before_app_request
 def load_logged_in_user():
+    db = get_db()
     g.user = None 
-    user_id = session.get('user_id')
+    user_id = session.get('user_id') 
     if user_id is not None:
-        sql = f"SELECT * FROM user WHERE id = '{user_id}'"
-        user = get_db().execute(sql).fetchone() 
-        if user is None:
-            session['user_id'] = None
-        else:            
-            g.user = User(user_id)     
+        user_col = db["users"]
+        myquery = {"_id":user_id} 
+        myuser = user_col.find_one(myquery)
+        if myuser is None:
+            session["user_id"] = None
+        else:
+            g.user = User(user_id)
 
 @bp.route('/logout')
 def logout():

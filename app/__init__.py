@@ -14,10 +14,10 @@ def load_user(user_id):
     return get_user(user_id)
 
 def get_user(user_id): 
-    user = db.execute(
-        'SELECT * FROM user WHERE id = ?', (user_id,)
-    ).fetchone()
-    return user
+    user = db.get_db()["users"]
+    myquery = { "_id":user_id}
+    myuser = user.find_one(myquery) 
+    return myuser
 
 def create_app(test_config=None):
     # create and configure the app
@@ -25,9 +25,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         USERNAME='admin',
-        PASSWORD='admin',
-        DATABASE=os.path.join(app.instance_path, 'cg-dashboard.sqlite'),
-        DATADIR=os.path.join(app.instance_path, 'cg-dashboard.sqlite'),
+        PASSWORD='admin'
     )
 
     if test_config is None:

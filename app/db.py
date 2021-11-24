@@ -1,4 +1,4 @@
-import sqlite3
+import pymongo
 
 import click
 from flask import current_app, g,session
@@ -6,68 +6,84 @@ from flask.cli import with_appcontext
 from flask_login.mixins import UserMixin
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash, generate_password_hash
+from bson.objectid import ObjectId 
 
 def get_db():
+    if 'client' not in g:
+        g.client = pymongo.MongoClient("mongodb://localhost:27017/") 
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row
-
+        g.db = g.client["cg_data"] 
     return g.db
 
-
 def close_db(e=None):
-    db = g.pop('db', None)
+    client = g.pop('client',None)
+    db = g.pop('db',None)
+    if client is not None:
+        client.close()
 
-    if db is not None:
-        db.close()
-
-
+# method to drop the collections in the database 
+# also creates the cg-data database if required 
 def init_db():
-    db = get_db()
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8')) 
+    # check if cg_data exists and if yes delete it 
+    client = pymongo.MongoClient("mongodb://localhost:27017/") 
+    database_list = client.database_names()
+
+    if "cg_data" in database_list:
+        client.drop_database("cg_data")
+
+    # make the database     
+    db = client["cg_data"]
+    g.client = client
+    g.db = db 
+    
+    #add the default admin user 
+    username ="admin"
+    password="admin"
+    role="admin"
+    email="admin@email.address"
+    print(add_user(username,password,role,email))
 
 # Add a user to the user table  
 def add_user(username, password, role, email):
-    db = get_db()
-    error = None
-    try:
-        hp = generate_password_hash(password)
-        sql = f"INSERT INTO user (username, email, role, password) VALUES ('{username}', '{email}', '{role}','{hp}' ) "
-        db.execute(sql)
-        db.commit()
-    except db.IntegrityError:
-        error = f"User {username} is already registered."
-    return error
+    hp = generate_password_hash(password)
+    user_dict = {"name":username,"password":hp,"role":role,"email":email}
+
+    user = g.db["users"]
+    error = None 
+    
+    # check if the username exists 
+    myquery = {"name":username}
+    cursor = user.find(myquery)
+    if cursor.count() > 0:
+         error = f"User {username} is already registered." 
+    else: 
+        user_id = user.insert_one(user_dict).inserted_id
+        error = f"User {username} registered."
+    return error 
 
 # Check if username, password pair is in the user table 
 # Returns None if pair is valid else the error string 
 def is_valid_user(username,password):
-    db = get_db()
+    user = get_db()["users"]
     error = None
-    sql = f"SELECT * FROM user WHERE username = '{username}'"
-    user = db.execute(sql).fetchone()
 
-    if user is None:
-        error = 'User not found'
-    elif not check_password_hash(user['password'], password):
-        error = 'Incorrect password.'
-    return error   
+    # check if the username exists 
+    myquery = {"name":username}
+    mydoc = user.find_one(myquery)
+    if mydoc is None: 
+        error = f"User {username} not found." 
+    elif not check_password_hash(mydoc['password'], password):
+        error = "Incorrect password"
+    return error  
 
-# Check if the user id is in the user table returns True, False 
-def is_valid_id(userid):
-    db = get_db()
-    error = None
-    sql = f"SELECT * FROM user WHERE id = '{userid}'"
-    user = db.execute(sql).fetchone()
-
-    if user is None:
-        return False
-    else:
-        return True     
+# return the _id for this user 
+def get_user_id(username):
+    user = get_db()["users"]
+    myquery = {"name":username} 
+    myuser = user.find_one(myquery)
+    user_id = str(myuser["_id"])
+    print (f"User id = {user_id}")
+    return user_id
 
 # Read the list of observations and put them into the obs_table 
 def add_observations():
@@ -76,15 +92,7 @@ def add_observations():
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    #Clear the existing data and create new tables."""
     init_db()
-
-    # Add the default admin account 
-    username = 'admin'
-    password = 'admin'
-    role = 'admin'
-    email = 'guest@example.com'
-    add_user(username,password,role,email)
     click.echo('Initialized the database.') 
 
 def init_app(app):
