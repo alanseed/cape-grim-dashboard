@@ -20,8 +20,11 @@ def get_user(user_id):
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_pyfile('config.py', silent=True)
+    app = Flask(__name__, instance_relative_config=True) 
+    # make the name of the config file 
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    config_name = os.path.join(basedir,"config.py")
+    app.config.from_pyfile(config_name, silent=True)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
