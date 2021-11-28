@@ -30,6 +30,7 @@ charts = db["charts"]
 if "obs_data" in col_names:
     db["obs_data"].drop()
 obs_data = db["obs_data"]
+db.obs_data.create_index('Name')
 
 # load the list of observation names
 obs_df = pd.read_csv(obs_list_name)
@@ -72,7 +73,8 @@ for file in file_names:
         rec_list.append(rec)
         nrecs += 1 
 
-    result = obs_data.insert_many(rec_list) 
-    print(f"Read {nrecs} records from {full_path}")
+    if len(rec_list) > 0:
+        result = obs_data.insert_many(rec_list) 
+        print(f"Read {nrecs} records from {full_path}")
 
 client.close()
