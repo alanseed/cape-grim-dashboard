@@ -1,22 +1,17 @@
 import os
-from flask import Flask, render_template, current_app, redirect, url_for
+from flask import Flask, redirect, url_for
 from flask_login import LoginManager
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
+from app.data.data import bp as data_bp
+
 from . import db 
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
-
 @login_manager.user_loader 
 def load_user(user_id):
-    return get_user(user_id)
-
-def get_user(user_id): 
-    user = db.get_db()["users"]
-    myquery = { "_id":user_id}
-    myuser = user.find_one(myquery) 
-    return myuser
+    return db.get_user(user_id)
 
 def create_app(test_config=None):
     # create and configure the app
@@ -48,6 +43,7 @@ def create_app(test_config=None):
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
+    app.register_blueprint(data_bp)
     login_manager.init_app(app) 
 
     return app
