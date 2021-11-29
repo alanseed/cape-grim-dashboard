@@ -69,7 +69,7 @@ for file in file_names:
     for irec in obs_df.index:
         rec = {"Time": obs_df["Time"][irec],
                "Name": obs_name,
-               "Value:": obs_df["Value"][irec]}
+               "Value": obs_df["Value"][irec]}
         rec_list.append(rec)
         nrecs += 1 
 
