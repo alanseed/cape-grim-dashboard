@@ -1,3 +1,4 @@
+# This module contains all the database queries, except for those in forms.py 
 import pymongo
 
 import click
@@ -6,7 +7,7 @@ from flask.cli import with_appcontext
 from flask_login.mixins import UserMixin
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash, generate_password_hash
-from bson.objectid import ObjectId 
+import json
 
 def get_db():
     if 'client' not in g:
@@ -88,7 +89,44 @@ def get_user_id(username):
 # Read the list of observations and put them into the obs_table 
 def add_observations():
     return 
- 
+
+# return a dictionary of user details for a user_id 
+def get_user(user_id): 
+    user = get_db()["users"]
+    myquery = { "_id":user_id}
+    myuser = user.find_one(myquery) 
+    return myuser
+
+# return a list of chart names 
+def get_chart_list(): 
+    charts = get_db()["charts"]
+    names = []
+    for irec in charts.find():
+        names.append(irec["Name"])
+    return json.dumps(names)
+
+# return a list of obs names 
+def get_obs_list(): 
+    obs_names = get_db()["obs_names"]
+    names = []
+    for irec in obs_names.find():
+        names.append(irec["ObsList"])
+    return json.dumps(names)
+
+
+# return a list dictionaries {time, value}
+def get_vals(obs_name, start_time, end_time):
+    obs_data = get_db()["obs_data"]
+    myquery = {'Name':obs_name,'Time':{'$gte':start_time,"$lte":end_time}}
+    results = obs_data.find(myquery)
+    data = []
+    for doc in results:
+        rec = {"Time":doc["Time"], "Value":doc["Value"]} 
+        data.append(rec)
+
+    return data 
+    
+# flask command to initialise the database with the admin user 
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
@@ -99,6 +137,7 @@ def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
 
+# User class for user authentication 
 class User(UserMixin):
     def __init__(self):
         self.id = None
