@@ -59,8 +59,11 @@ for file in file_names:
         this_chart["obs"].append(obs_name)
 
 # read the chart specifications from the csv file into a dataframe
+print(f"Reading chart specs {chart_spec_name}")
 chart_spec_df = pd.read_csv(chart_spec_name)
+chart_spec_df["ObsList"] = ""
 chart_spec_df['ObsList'] = chart_spec_df['ObsList'].astype(str)
+print(chart_spec_df.head())
 
 # get the list of observations and add them to the dataframe
 for ia in range(len(chart_spec_df)):
