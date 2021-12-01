@@ -1,6 +1,7 @@
 # Local data 
 data/
 instance/
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
