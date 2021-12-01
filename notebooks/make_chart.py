@@ -5,6 +5,7 @@ import pymongo
 import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import numpy as np
 
 
 # %%
@@ -51,9 +52,9 @@ def make_chart(chart_name, start, end):
             if chart["L/R"] == "L":
                 fig.add_trace(go.Scatter(x=times, y=values,name=chart["Legend"]),secondary_y=False)
             if chart["L/R"] == "R":
-                 fig.add_trace(go.Scatter(x=times, y=values,name=chart["Legend"]),secondary_y=True)
-        else:       
-            fig.add_trace(go.Scatter(x=times, y=values,name=chart["Legend"]))    
+                fig.add_trace(go.Scatter(x=times, y=values,name=chart["Legend"]),secondary_y=True)
+        else:   
+            fig.add_trace(go.Scatter(x=times, y=values,name=chart["Legend"]))
         
     # add the slider
     fig.update_layout(
@@ -70,31 +71,26 @@ def make_chart(chart_name, start, end):
         )
     )
     
-    # set the titles - manage the degree symbol if needed 
+    # format the y axis 
+    yl_dict = {}
+    if not np.isnan(float(chart["LeftLog"])):
+        yl_dict["type"]="log"
     left_title = format_title(chart["LeftTitle"]) 
-        
+    yl_dict["title"] = left_title 
+    if not np.isnan(float(chart["LeftMin"])):
+        yl_dict["range"] = [chart["LeftMin"],chart["LeftMax"]]
+    fig.update_layout(yaxis=yl_dict)
+
     # set up the y-axis 
     if secondary_y:
-        right_title = format_title(chart["RightTitle"])
-        fig.update_layout(
-            yaxis=dict(
-                range=[chart["LeftMin"],chart["LeftMax"]],
-                title=left_title
-            )
-        )
-        fig.update_layout(
-            yaxis2=dict(
-                range=[chart["RightMin"],chart["RightMax"]],
-                title=right_title
-            )
-        )        
-    else:     
-        fig.update_layout(
-            yaxis=dict(
-                range=[chart["LeftMin"],chart["LeftMax"]],
-                title=left_title
-            )
-        )
+        yr_dict = {}
+        if not np.isnan(float(chart["RightLog"])):
+            yr_dict["type"] = "log"
+        right_title = format_title(chart["RightTitle"]) 
+        yr_dict["title"]=right_title 
+        if not np.isnan(float(chart["RightMin"])):
+            yr_dict["range"] = [chart["RightMin"],chart["RightMax"]]
+        fig.update_layout(yaxis2=yr_dict)
     
     # set the title     
     fig.update_layout(title_text=chart["Title"])
@@ -143,15 +139,22 @@ def format_title(title):
 
 # %%
 start = datetime.datetime.fromisoformat("2021-01-01T00:00:00") 
-end = datetime.datetime.fromisoformat("2021-01-07T00:00:00")
+end = datetime.datetime.fromisoformat("2021-01-07T00:00:00") 
+out_dir = "/home/awseed/src/cape-grim-dashboard/instance/"
+
+# chart_name = "radon-data-linear"
+# fig = make_chart(chart_name, start, end)
+# fig_name = out_dir + chart_name + ".html"
+# if fig != None:
+#     fig.write_html(fig_name)
+
 charts = list_charts()
-
-# fig = make_chart("merc-fullscale-data", start, end)
-
 for chart_name in charts:
     fig = make_chart(chart_name, start, end)
+    fig_name = out_dir + chart_name + ".html"
+    print(fig_name)
     if fig != None:
-        fig.show()
+        fig.write_html(fig_name)
     else:
         print("Error in making chart")
         break     
