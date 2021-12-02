@@ -119,9 +119,9 @@ def make_chart(chart_name, start, end):
         fig = go.Figure() 
         
     for chart in chart_list:    
-        # read in the values for this line 
+        # read in the values for this line and sort 
         myquery = {'DataName':chart["DataName"],'Time':{'$gte':start,"$lte":end}}
-        docs = db.obs_data.find(myquery, {"Time":1,"Value":1})   
+        docs = db.obs_data.find(myquery, {"Time":1,"Value":1}).sort("Time")   
         
         # load the time and values into lists 
         times = []
