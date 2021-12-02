@@ -1,5 +1,6 @@
 argon2-cffi==21.1.0
 attrs==21.2.0
+autopep8==1.6.0
 backcall==0.2.0
 bleach==4.1.0
 cffi==1.15.0
@@ -9,6 +10,7 @@ decorator==5.1.0
 defusedxml==0.7.1
 entrypoints==0.3
 Flask==2.0.2
+Flask-Login==0.5.0
 Flask-WTF==1.0.0
 ipykernel==6.5.1
 ipython==7.30.0
@@ -44,6 +46,7 @@ prometheus-client==0.12.0
 prompt-toolkit==3.0.23
 ptyprocess==0.7.0
 pyarrow==3.0.0
+pycodestyle==2.8.0
 pycparser==2.21
 Pygments==2.10.0
 pymongo==3.12.2
@@ -59,6 +62,7 @@ six==1.16.0
 tenacity==8.0.1
 terminado==0.12.1
 testpath==0.5.0
+toml==0.10.2
 tornado==6.1
 traitlets==5.1.1
 wcwidth==0.2.5

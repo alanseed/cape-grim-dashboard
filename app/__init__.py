@@ -6,6 +6,7 @@ from app.main.main import bp as main_bp
 from app.data.data import bp as data_bp
 
 from . import db 
+from . import chart
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -40,6 +41,7 @@ def create_app(test_config=None):
         return redirect(url_for('main.index'))
 
     db.init_app(app) 
+    chart.init_app(app)
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)

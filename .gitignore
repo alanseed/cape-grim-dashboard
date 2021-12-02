@@ -1,6 +1,7 @@
 # Local data 
 data/
 instance/
+charts/
 .vscode
 
 # Byte-compiled / optimized / DLL files

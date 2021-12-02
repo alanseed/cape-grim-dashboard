@@ -97,14 +97,6 @@ def get_user(user_id):
     myuser = user.find_one(myquery) 
     return myuser
 
-# return a list of chart names 
-def get_chart_list(): 
-    charts = get_db()["charts"]
-    names = []
-    for irec in charts.find():
-        names.append(irec["Name"])
-    return json.dumps(names)
-
 # return a list of obs names 
 def get_obs_list(): 
     obs_names = get_db()["obs_names"]

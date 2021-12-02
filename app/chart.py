@@ -1,14 +1,64 @@
 # This module builds the html for a chart 
+import click
+from flask import current_app, g,session
+from flask.cli import with_appcontext
 import pymongo 
-import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
+import datetime 
+import os
+from app.db import get_db
+
+# flask command to make the charts 
+@click.command('make-charts',help="START: yyyy-mm-ddThh:mm:ss")
+@click.argument("start")
+@with_appcontext
+def make_charts_command(start):
+    # check if we have a valid time string 
+    try:
+        start_time = datetime.datetime.fromisoformat(start) 
+    except Exception as e:
+        click.echo("Time format must be yyyy-mm-ddThh:mm:ss")  
+        return 
+
+    time_length = datetime.timedelta(days=7)
+    end_time = start_time + time_length 
+    end = end_time.strftime("%Y-%m-%dT%H:%M:%S")
+    start = start_time.strftime("%Y-%m-%dT%H:%M:%S")
+
+    click.echo(f"make_charts from {start} to {end}")
+
+    # get the path to the output files 
+    basedir = os.path.abspath(os.path.dirname(__file__)) 
+    chart_dir = os.path.normpath(os.path.join(basedir,"../charts"))
+    click.echo(f"output path = {chart_dir}")
+    
+    # make sure that the output path exists 
+    try:
+        os.makedirs(chart_dir)
+    except FileExistsError:
+        pass
+
+    # get the list of charts to make 
+    chart_list = list_charts()
+    for chart in chart_list:
+        chart_name = os.path.join(chart_dir, chart)
+        click.echo(f"Making chart {chart}")
+        fig = make_chart(chart, start, end)  
+        if fig is None:
+            click.echo("Error making chart")
+            return
+        else:
+            fig.write_html(chart_name)           
+    return  
+
+def init_app(app):
+    app.cli.add_command(make_charts_command)
 
 # function to return a list of enabled charts from the database 
 def list_charts():
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["cg_data"] 
+    db = get_db()
     charts = []
     docs = db.charts.find() 
     for doc in docs:
@@ -16,7 +66,6 @@ def list_charts():
         enable = doc["Enable"]
         if (this_chart not in charts) and (enable == 1) : 
             charts.append(this_chart)
-    client.close() 
     return charts
 
 # function to take care of the special characters in the title 
@@ -44,12 +93,12 @@ def format_title(title):
 # function returns a chart as a plotly graphic object 
 # returns None on error 
 def make_chart(chart_name, start, end):
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["cg_data"] 
+    db= get_db()
     
     # check if we have a valid chart_name 
     count = db.charts.count_documents(filter={"ChartName":chart_name}) 
     if count == 0:
+        click.echo(f"Chart not found {chart_name}")
         return None
 
     # get the list of chart configurations, one per DataName
@@ -127,7 +176,6 @@ def make_chart(chart_name, start, end):
         fig.update_layout(yaxis2=yr_dict)
     
     # set the title     
-    fig.update_layout(title_text=chart["Title"])
-    client.close()        
+    fig.update_layout(title_text=chart["Title"])     
     return fig             
 
