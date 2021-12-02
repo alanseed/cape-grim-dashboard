@@ -45,7 +45,7 @@ def make_charts_command(start):
     for chart in chart_list:
         chart_name = os.path.join(chart_dir, chart) + ".json"
         click.echo(f"Making chart {chart}")
-        fig = make_chart(chart, start, end)  
+        fig = make_chart(chart, start_time, end_time)  
         if fig is None:
             click.echo("Error making chart")
             return
