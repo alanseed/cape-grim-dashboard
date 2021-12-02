@@ -1,8 +1,8 @@
 # This module builds the html for a chart 
 import click
+import plotly 
 from flask import current_app, g,session
 from flask.cli import with_appcontext
-import pymongo 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
@@ -43,14 +43,14 @@ def make_charts_command(start):
     # get the list of charts to make 
     chart_list = list_charts()
     for chart in chart_list:
-        chart_name = os.path.join(chart_dir, chart)
+        chart_name = os.path.join(chart_dir, chart) + ".json"
         click.echo(f"Making chart {chart}")
         fig = make_chart(chart, start, end)  
         if fig is None:
             click.echo("Error making chart")
             return
         else:
-            fig.write_html(chart_name)           
+            plotly.io.write_json(fig,chart_name,engine="orjson")           
     return  
 
 def init_app(app):
