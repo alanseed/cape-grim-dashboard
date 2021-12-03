@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
+    Blueprint, flash, g, redirect, request, session, url_for, current_app, jsonify
 )
 
 bp = Blueprint('main', __name__, url_prefix='/main')
@@ -17,11 +17,21 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 #         graphJSON = f.read() 
 #     return render_template('main/index.html', graphJSON = graphJSON, chart_name=chart_name)
 
-@bp.route('/')
+@bp.route('/chart',methods=('GET', 'POST'))
 def get_chart():
-    chart_name = request.args.get("chart_name")
+    chart_name = request.args.get("chart_name") 
+    # return jsonify("chart test") 
     file_name = "/home/awseed/src/cape-grim-dashboard/charts/" + chart_name + ".json" 
     with open(file_name) as f:
         graphJSON = f.read() 
-    return render_template('main/index.html', graphJSON = graphJSON)
+    response = jsonify(graphJSON) 
+    response.headers.add('Access-Control-Allow-Origin', '*')    
+    return response
     
+@bp.route('/')
+def get_main(): 
+        return redirect(url_for('static',filename='index.html'))
+
+@bp.route('/test',methods=('GET','POST'))
+def test(): 
+    return jsonify("test")        

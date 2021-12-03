@@ -1,6 +1,8 @@
 import os
 from flask import Flask, redirect, url_for
-from flask_login import LoginManager
+from flask_login import LoginManager 
+from flask_cors import CORS  
+
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
 from app.data.data import bp as data_bp
@@ -17,6 +19,8 @@ def load_user(user_id):
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True) 
+    CORS(app,support_credentials=True) 
+
     # make the name of the config file 
     basedir = os.path.abspath(os.path.dirname(__file__))
     config_name = os.path.join(basedir,"config.py")
