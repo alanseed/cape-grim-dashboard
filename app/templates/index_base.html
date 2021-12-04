@@ -9,36 +9,49 @@
 
 </head>
 
-<body> 
-<nav class="navbar navbar-expand-sm navbar-light bg-primary ms-auto" style="--bs-bg-opacity: .5">
-  <div class="container-fluid">
-    <h1 class="navbar-brand mt-1">Cape Grim Dashboard</h1>
-    <ul class="navbar-nav">
+<body>
+  <nav class="navbar navbar-expand-sm navbar-light bg-primary ms-auto" style="--bs-bg-opacity: .5">
+    <div class="container-fluid">
+      <a class="navbar-brand mt-1" href="{{ url_for('main.index') }}">Cape Grim Dashboard</a>
+      <ul class="navbar-nav">
 
-      {% if g.user %}
+        {% if g.user %}
 
-      <span class="navbar-text">{{ g.username }}</span>
-      <li class="nav-item"><a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a></li>
+        <span class="navbar-text">{{ g.username }}</span>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a></li>
 
-      {% else %}
+        {% else %}
 
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
 
-      {% endif %}
+        {% endif %}
 
-    </ul>
-  </div>
-</nav>
+      </ul>
+    </div>
+  </nav>
 
-<container>  
-  <section class="chart_content" id="chart_content"> 
-    <div class="card">
-        <div class="card-body">
-        <div class='chart' id='chart'> </div>
-        </div>  
-  </section>  
-</container> 
+  <container>
+    <div class="row">
+      <div class='col-2'>
+        <div class='card'>
+          <div class='btn-group-vertical' role='group' aria-label='chart selector' id="selector">
+            <button type='button' id='ws-comparison' class='btn btn-outline-primary btn-large'
+              value='ws-comparison'>ws-comparison</button>
+            <button type='button' id='wd-comparison' class='btn btn-outline-primary btn-large'
+              value='wd-comparison'>wd-comparison</button>
+          </div>
+        </div>
+      </div>
+      <div class='col-10'>
+        <div class='card'>
+          <div class='chart js-plotly-plot' id='chart'> </div>
+        </div>
+      </div>
+    </div>
+  </container>
+</body>
 
-</body> 
+<script src="../static/make_chart.js"></script>
+
 </html>

@@ -29,16 +29,12 @@ function show(data) {
 
 
 function makeChart(value) {
-    // const url = new URL("http://localhost:5000/main/test")
-    // url.search = new URLSearchParams({ chart: `${value}` })
     const url =`/main/chart?chart_name=${value}`
     fetch(url)
         .then((resp) => resp.json())
         .then(function (data) {
-            
-            var fig = JSON.parse(data) 
-            console.log(fig.data)
-            Plotly.plot('chart', fig.data, fig.layout);
+            var fig = JSON.parse(data)
+            Plotly.newPlot('chart', fig.data, fig.layout)
         })
     .catch(function(error) {
         console.log(error);

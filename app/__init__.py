@@ -1,14 +1,16 @@
 import os
-from flask import Flask, redirect, url_for
+from flask import Flask, render_template, url_for
 from flask_login import LoginManager 
 from flask_cors import CORS  
 
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
-from app.data.data import bp as data_bp
+from app.data.data import bp as data_bp 
+from app.auth.auth import close_user 
+from app.db import close_db
 
 from . import db 
-from . import chart
+from . import chart 
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -41,8 +43,8 @@ def create_app(test_config=None):
 
     # home page 
     @app.route('/')
-    def home_page():
-        return redirect(url_for('main.index'))
+    def index():
+        return render_template('main/index.html')
 
     db.init_app(app) 
     chart.init_app(app)
@@ -51,5 +53,5 @@ def create_app(test_config=None):
     app.register_blueprint(main_bp)
     app.register_blueprint(data_bp)
     login_manager.init_app(app) 
-
+    
     return app
