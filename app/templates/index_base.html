@@ -33,17 +33,89 @@
 
   <container>
     <div class="row">
-      <div class='col-2'>
+      <div class='col-2 m-2'>
         <div class='card'>
-          <div class='btn-group-vertical' role='group' aria-label='chart selector' id="selector">
-            <button type='button' id='ws-comparison' class='btn btn-outline-primary btn-large'
-              value='ws-comparison'>ws-comparison</button>
-            <button type='button' id='wd-comparison' class='btn btn-outline-primary btn-large'
-              value='wd-comparison'>wd-comparison</button>
+
+          <div class='btn-group-vertical gap-2 m-2' role='group' aria-label='chart selector' id="selector">
+            <button type='button' id='ws-comparison' class='btn btn-outline-primary btn-large rounded'
+              value='ws-comparison'>wind speed</button>
+
+            <button type='button' id='wd-comparison' class='btn btn-outline-primary btn-large rounded'
+              value='wd-comparison'>wind direction</button>
+
+            <button type='button' id='ws-hourly' class='btn btn-outline-primary btn-large rounded'
+              value='ws-hourly'>wind speed hourly</button>
+
+            <button type='button' id='wd-hourly' class='btn btn-outline-primary btn-large rounded'
+              value='wd-hourly'>wind direction hourly</button>
+
+            <button type='button' id='wind-combined' class='btn btn-outline-primary btn-large rounded'
+              value='wind-combined'>wind combined</button> 
+
+            <button type='button' id='temperature-data' class='btn btn-outline-primary btn-large rounded'
+              value='temperature-data'>Temperature</button> 
+
+            <button type='button' id='dewpoint-data' class='btn btn-outline-primary btn-large rounded'
+              value='dewpoint-data'>Dew Point</button> 
+
+            <button type='button' id='pressure-data' class='btn btn-outline-primary btn-large rounded'
+              value='pressure-data'>Pressure</button>
+
+              <button type='button' id='radon-data' class='btn btn-outline-primary btn-large rounded'
+              value='radon-data'>Radon</button>
+
+              <button type='button' id='particle-data' class='btn btn-outline-primary btn-large rounded'
+              value='particle-data'>Particle</button>
+
+              <button type='button' id='neph-data' class='btn btn-outline-primary btn-large rounded'
+              value='neph-data'>Nephelometer</button>
+              <button type='button' id='neph2_data' class='btn btn-outline-primary btn-large rounded'
+              value='neph2_data'>Nephelometer2</button>
+
+              <button type='button' id='bc-data' class='btn btn-outline-primary btn-large rounded'
+              value='bc-data'>Black Carbon</button>
+
+              <button type='button' id='co2-data' class='btn btn-outline-primary btn-large rounded'
+              value='co2-data'>CO2</button>
+
+              <button type='button' id='c-isotopes' class='btn btn-outline-primary btn-large rounded'
+              value='c-isotopes'>C Isotopes</button> 
+
+              <button type='button' id='n2o-co' class='btn btn-outline-primary btn-large rounded'
+              value='n2o-co'>N2O and CO</button>
+
+              <button type='button' id='gcmd-data-1' class='btn btn-outline-primary btn-large rounded'
+              value='gcmd-data-1'>GCMD Page 1</button>
+
+              <button type='button' id='gcmd-data-2' class='btn btn-outline-primary btn-large rounded'
+              value='gcmd-data-2'>GCMD Page 2</button>
+
+              <button type='button' id='medusa-data-1' class='btn btn-outline-primary btn-large rounded'
+              value='medusa-data-1'>Medusa Page 1</button>
+
+              <button type='button' id='medusa-data-2' class='btn btn-outline-primary btn-large rounded'
+              value='medusa-data-2'>Medusa Page 2</button>
+
+              <button type='button' id='ozone-data' class='btn btn-outline-primary btn-large rounded'
+              value='ozone-data'>Ozone</button>
+
+              <!-- TO DO - Find out why noxy data is not working  -->
+              <!-- <button type='button' id='noxy-data' class='btn btn-outline-primary btn-large rounded'
+              value='noxy-data'>NO_{xy}</button> -->
+
+              <button type='button' id='eco-nox-data' class='btn btn-outline-primary btn-large rounded'
+              value='eco-nox-data'>Eco NO x</button>
+
+              <button type='button' id='thermo-nox-data' class='btn btn-outline-primary btn-large rounded'
+              value='eco-nox-data'>Thermo NO x</button>
+
+              <button type='button' id='mercury-data' class='btn btn-outline-primary btn-large rounded'
+              value='mercury-data'>Mercury</button>
+ 
           </div>
         </div>
       </div>
-      <div class='col-10'>
+      <div class='col-9 m-2'>
         <div class='card'>
           <div class='chart js-plotly-plot' id='chart'> </div>
         </div>
@@ -53,5 +125,12 @@
 </body>
 
 <script src="../static/make_chart.js"></script>
+
+{% if init %}
+<script>
+  document.getElementById("ws-comparison").click();
+  document.getElementById("ws-comparison").focus();
+</script>
+{% endif %}
 
 </html>

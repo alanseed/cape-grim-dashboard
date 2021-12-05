@@ -8,7 +8,6 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 @bp.route('/chart',methods=('GET', 'POST'))
 def get_chart():
     chart_name = request.args.get("chart_name") 
-    # return jsonify("chart test") 
     file_name = "/home/awseed/src/cape-grim-dashboard/charts/" + chart_name + ".json" 
     with open(file_name) as f:
         graphJSON = f.read() 
@@ -24,7 +23,7 @@ def index():
         session['user_id'] = user_id
         g.user = User(user_id)
         g.username = username 
-    return render_template('main/index.html')
+    return render_template('main/index.html',init=True)
 
 @bp.route('/test',methods=('GET','POST'))
 def test(): 
