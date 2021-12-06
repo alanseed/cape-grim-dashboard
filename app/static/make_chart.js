@@ -1,6 +1,6 @@
 var t = document.getElementById("selector")
 var b = t.getElementsByTagName("button")
-console.log(b.length)
+
 for (i = 0; i < b.length; i++){
     b[i].addEventListener("click", function () { makeChart(this.value); })
 }

@@ -45,7 +45,7 @@ def login():
             session['username'] = username
             g.user = User(user_id)
             g.username = username 
-            return render_template('main/index.html')
+            return render_template('main/index_met.html')
 
         flash(error)
         return render_template('auth/login.html')
@@ -72,7 +72,7 @@ def logout():
     session.clear()
     g.user = None 
     g.username = None
-    return render_template('main/index.html')
+    return render_template('main/index_met.html')
 
 def login_required(view):
     @functools.wraps(view)

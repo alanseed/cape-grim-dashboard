@@ -23,8 +23,31 @@ def index():
         session['user_id'] = user_id
         g.user = User(user_id)
         g.username = username 
-    return render_template('main/index.html',init=True)
+    return render_template('main/index_met.html',init=True)
 
 @bp.route('/test',methods=('GET','POST'))
 def test(): 
     return jsonify("test")        
+
+@bp.route('/met',methods=('GET','POST'))
+def met():
+    if 'username' in session:
+        print(session['username'])
+        username = session['username'] 
+        user_id = get_user_id(username) 
+        session['user_id'] = user_id
+        g.user = User(user_id)
+        g.username = username 
+
+    return render_template('main/index_met.html', init=True) 
+
+@bp.route('/comp',methods=('GET','POST'))
+def comp():
+    if 'username' in session:
+        username = session['username'] 
+        user_id = get_user_id(username) 
+        session['user_id'] = user_id
+        g.user = User(user_id)
+        g.username = username 
+
+    return render_template('main/index_comp.html', init =True) 

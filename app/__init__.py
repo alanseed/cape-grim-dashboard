@@ -44,7 +44,7 @@ def create_app(test_config=None):
     # home page 
     @app.route('/')
     def index():
-        return render_template('main/index.html')
+        return render_template('main/index_met.html')
 
     db.init_app(app) 
     chart.init_app(app)

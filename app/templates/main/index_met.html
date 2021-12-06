@@ -1,0 +1,36 @@
+{% extends 'index_base.html' %} 
+{% block content %} 
+<button type='button' id='ws-comparison' class='btn btn-outline-primary btn-large rounded'
+value='ws-comparison'>wind speed</button>
+
+<button type='button' id='wd-comparison' class='btn btn-outline-primary btn-large rounded'
+value='wd-comparison'>wind direction</button>
+
+<button type='button' id='ws-hourly' class='btn btn-outline-primary btn-large rounded'
+value='ws-hourly'>wind speed hourly</button>
+
+<button type='button' id='wd-hourly' class='btn btn-outline-primary btn-large rounded'
+value='wd-hourly'>wind direction hourly</button>
+
+<button type='button' id='wind-combined' class='btn btn-outline-primary btn-large rounded'
+value='wind-combined'>wind combined</button> 
+
+<button type='button' id='temperature-data' class='btn btn-outline-primary btn-large rounded'
+value='temperature-data'>Temperature</button> 
+
+<button type='button' id='dewpoint-data' class='btn btn-outline-primary btn-large rounded'
+value='dewpoint-data'>Dew Point</button> 
+
+<button type='button' id='pressure-data' class='btn btn-outline-primary btn-large rounded'
+value='pressure-data'>Pressure</button> 
+
+<script src="../static/make_chart.js"></script>
+
+{% if init %}
+<script>
+  document.getElementById("ws-comparison").click();
+  document.getElementById("ws-comparison").focus();
+  document.getElementById("met_tab").focus(); 
+</script>
+{% endif %} 
+{% endblock %}

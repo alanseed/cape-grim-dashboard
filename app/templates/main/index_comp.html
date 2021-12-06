@@ -1,0 +1,62 @@
+{% extends 'index_base.html' %}
+{% block content %}
+
+<button type='button' id='radon-data' class='btn btn-outline-primary btn-large rounded'
+    value='radon-data'>Radon</button>
+
+<button type='button' id='particle-data' class='btn btn-outline-primary btn-large rounded'
+    value='particle-data'>Particle</button>
+
+<button type='button' id='neph-data' class='btn btn-outline-primary btn-large rounded'
+    value='neph-data'>Nephelometer</button>
+<button type='button' id='neph2_data' class='btn btn-outline-primary btn-large rounded'
+    value='neph2_data'>Nephelometer2</button>
+
+<button type='button' id='bc-data' class='btn btn-outline-primary btn-large rounded' value='bc-data'>Black
+    Carbon</button>
+
+<button type='button' id='co2-data' class='btn btn-outline-primary btn-large rounded' value='co2-data'>CO2</button>
+
+<button type='button' id='c-isotopes' class='btn btn-outline-primary btn-large rounded' value='c-isotopes'>C
+    Isotopes</button>
+
+<button type='button' id='n2o-co' class='btn btn-outline-primary btn-large rounded' value='n2o-co'>N2O and CO</button>
+
+<button type='button' id='gcmd-data-1' class='btn btn-outline-primary btn-large rounded' value='gcmd-data-1'>GCMD Page
+    1</button>
+
+<button type='button' id='gcmd-data-2' class='btn btn-outline-primary btn-large rounded' value='gcmd-data-2'>GCMD Page
+    2</button>
+
+<button type='button' id='medusa-data-1' class='btn btn-outline-primary btn-large rounded' value='medusa-data-1'>Medusa
+    Page 1</button>
+
+<button type='button' id='medusa-data-2' class='btn btn-outline-primary btn-large rounded' value='medusa-data-2'>Medusa
+    Page 2</button>
+
+<button type='button' id='ozone-data' class='btn btn-outline-primary btn-large rounded'
+    value='ozone-data'>Ozone</button>
+
+<!-- TO DO - Find out why noxy data is not working  -->
+<!-- <button type='button' id='noxy-data' class='btn btn-outline-primary btn-large rounded'
+             value='noxy-data'>NO_{xy}</button> -->
+
+<button type='button' id='eco-nox-data' class='btn btn-outline-primary btn-large rounded' value='eco-nox-data'>Eco NO
+    x</button>
+
+<button type='button' id='thermo-nox-data' class='btn btn-outline-primary btn-large rounded' value='eco-nox-data'>Thermo
+    NO x</button>
+
+<button type='button' id='mercury-data' class='btn btn-outline-primary btn-large rounded'
+    value='mercury-data'>Mercury</button>
+
+<script src="../static/make_chart.js"></script>
+
+{% if init %}
+<script>
+    document.getElementById("radon-data").click();
+    document.getElementById("radon-data").focus();
+    document.getElementById("comp_tab").focus(); 
+</script>
+{% endif %}
+{% endblock %}
