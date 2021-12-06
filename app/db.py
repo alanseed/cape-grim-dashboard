@@ -8,6 +8,7 @@ from flask_login.mixins import UserMixin
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
+import datetime 
 
 def get_db():
     if 'client' not in g:
@@ -118,6 +119,37 @@ def get_vals(obs_name, start_time, end_time):
 
     return data 
     
+# write the chart to the data base 
+# assumes that fig is the JSON buffer from plotly 
+def add_chart(chart_name, start_time, end_time, fig): 
+    
+    chart = get_db()["chart_data"] 
+    chart_dict = { 
+        "ChartName":chart_name, 
+        "StartDate":start_time, 
+        "EndDate":end_time, 
+        "GenTime":datetime.datetime.utcnow(), 
+        "Data":fig
+    }
+    user_id = chart.insert_one(chart_dict).inserted_id
+
+# read the chart from the data base 
+# returns a dictionary 
+def get_chart(chart_name, start_date): 
+    chart = get_db()["chart_data"] 
+    myquery = {'ChartName':chart_name, 'StartDate':start_date} 
+    result = chart.find_one(myquery) 
+    return result 
+
+# delete all charts that were generated before a certain date 
+# returns the numer of charts that were deleted 
+def delete_charts(gen_date): 
+    chart = get_db()["chart_data"]
+    myquery = {'GenDate':{"$lte":gen_date}}
+    result = chart.delete_many(myquery)         
+    return result.deleted_count 
+
+
 # flask command to initialise the database with the admin user 
 @click.command('init-db')
 @with_appcontext

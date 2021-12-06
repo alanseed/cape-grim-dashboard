@@ -8,7 +8,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 import datetime 
 import os
-from app.db import get_db
+from app.db import add_chart, get_db
 
 # flask command to make the charts 
 @click.command('make-charts',help="START: yyyy-mm-ddThh:mm:ss")
@@ -29,28 +29,18 @@ def make_charts_command(start):
 
     click.echo(f"make_charts from {start} to {end}")
 
-    # get the path to the output files 
-    basedir = os.path.abspath(os.path.dirname(__file__)) 
-    chart_dir = os.path.normpath(os.path.join(basedir,"../charts"))
-    click.echo(f"output path = {chart_dir}")
-    
-    # make sure that the output path exists 
-    try:
-        os.makedirs(chart_dir)
-    except FileExistsError:
-        pass
-
     # get the list of charts to make 
     chart_list = list_charts()
     for chart in chart_list:
-        chart_name = os.path.join(chart_dir, chart) + ".json"
-        click.echo(f"Making chart {chart}")
         fig = make_chart(chart, start_time, end_time)  
         if fig is None:
             click.echo("Error making chart")
             return
         else:
-            plotly.io.write_json(fig,chart_name,engine="orjson")           
+            # write the chart to the database 
+            data = plotly.io.to_json(fig,engine="orjson") 
+            print(chart)
+            add_chart(chart,start_time, end_time, data)         
     return  
 
 def init_app(app):

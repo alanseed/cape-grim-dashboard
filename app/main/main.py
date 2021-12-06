@@ -1,18 +1,20 @@
 from flask import (
     Blueprint, flash, g, render_template, request, session, url_for, current_app, jsonify
 )
-from app.db import User, get_user_id
+from app.db import User, get_user_id, get_chart
+import datetime 
 
 bp = Blueprint('main', __name__, url_prefix='/main')
 
 @bp.route('/chart',methods=('GET', 'POST'))
-def get_chart():
+def chart():
     chart_name = request.args.get("chart_name") 
-    file_name = "/home/awseed/src/cape-grim-dashboard/charts/" + chart_name + ".json" 
-    with open(file_name) as f:
-        graphJSON = f.read() 
-    response = jsonify(graphJSON) 
-    response.headers.add('Access-Control-Allow-Origin', '*')    
+    start = "2021-06-01" 
+    start_time = datetime.datetime.fromisoformat(start)  
+    chart_data = get_chart(chart_name, start_time) 
+
+    response = jsonify(chart_data['Data']) 
+    response.headers.add('Access-Control-Allow-Origin','*') 
     return response
     
 @bp.route('/index',methods=('GET','POST'))
