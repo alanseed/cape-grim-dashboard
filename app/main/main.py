@@ -50,4 +50,15 @@ def comp():
         g.user = User(user_id)
         g.username = username 
 
-    return render_template('main/index_comp.html', init =True) 
+    return render_template('main/index_comp.html', init =True)  
+
+@bp.route('/diag',methods=('GET','POST'))
+def diag():
+    if 'username' in session:
+        username = session['username'] 
+        user_id = get_user_id(username) 
+        session['user_id'] = user_id
+        g.user = User(user_id)
+        g.username = username 
+
+    return render_template('main/index_diag.html', init =True)     

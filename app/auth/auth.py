@@ -15,7 +15,7 @@ def register():
     form = RegistrationForm()
     if request.method == 'POST':
         if current_user.is_authenticated:
-            return render_template('main/index.html')
+            return render_template('main/index_met.html', init = True)
 
         if form.validate_on_submit():
             error = add_user(form.username.data, form.password.data, "guest", form.email.data)
@@ -45,7 +45,7 @@ def login():
             session['username'] = username
             g.user = User(user_id)
             g.username = username 
-            return render_template('main/index_met.html')
+            return render_template('main/index_met.html',init=True)
 
         flash(error)
         return render_template('auth/login.html')
@@ -72,7 +72,7 @@ def logout():
     session.clear()
     g.user = None 
     g.username = None
-    return render_template('main/index_met.html')
+    return render_template('main/index_met.html', init=True)
 
 def login_required(view):
     @functools.wraps(view)

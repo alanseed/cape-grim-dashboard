@@ -1,0 +1,49 @@
+{% extends 'index_base.html' %} 
+
+{% block title %} 
+Diagnostics
+{% endblock %} 
+
+{% block content %} 
+<button type='button' id='picarro-ch4-water' class='btn btn-outline-primary btn-large rounded'
+value='picarro-ch4-water'>Picarro CH4 and Water</button>
+
+<button type='button' id='noxy-cal-flow' class='btn btn-outline-primary btn-large rounded'
+value='noxy-cal-flow'>AQD NO Cal Flow</button>
+
+<button type='button' id='noxy-other-flows' class='btn btn-outline-primary btn-large rounded'
+value='noxy-other-flows'>AQD Sample and Oxygen Flow</button>
+
+<button type='button' id='eco-nox-cal' class='btn btn-outline-primary btn-large rounded'
+value='eco-nox-cal'>Eco NO_x Cal 0200-0600</button>
+
+<button type='button' id='eco-nox-temp' class='btn btn-outline-primary btn-large rounded'
+value='eco-nox-temp'>Eco NO_x Temperatures</button> 
+
+<button type='button' id='eco-nox-press' class='btn btn-outline-primary btn-large rounded'
+value='eco-nox-press'>Eco NO_x Pressures  </button> 
+
+<button type='button' id='nox-pressure' class='btn btn-outline-primary btn-large rounded'
+value='nox-pressure'>NO_x Pressure</button> 
+
+<button type='button' id='nox-flow' class='btn btn-outline-primary btn-large rounded'
+value='nox-flow'>NO_x Flow</button> 
+
+<button type='button' id='labtemp-data' class='btn btn-outline-primary btn-large rounded'
+value='labtemp-data'>Lab Temperature</button> 
+
+<button type='button' id='stationair-data' class='btn btn-outline-primary btn-large rounded'
+value='stationair-data'>Station Air Pressure</button> 
+
+<button type='button' id='70m-co2-flowrate' class='btn btn-outline-primary btn-large rounded'
+value='70m-co2-flowrate'>70m CO_2 flowrate</button> 
+
+<script src="../static/make_chart.js"></script>
+
+{% if init %}
+<script>
+  document.getElementById("picarro-ch4-water").click();
+  document.getElementById("picarro-ch4-water").focus();
+</script>
+{% endif %} 
+{% endblock %}

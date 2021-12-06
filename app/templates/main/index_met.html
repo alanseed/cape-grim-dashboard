@@ -1,4 +1,9 @@
-{% extends 'index_base.html' %} 
+{% extends 'index_base.html' %}  
+
+{% block title %} 
+Meteorology
+{% endblock %}
+
 {% block content %} 
 <button type='button' id='ws-comparison' class='btn btn-outline-primary btn-large rounded'
 value='ws-comparison'>wind speed</button>
@@ -30,7 +35,6 @@ value='pressure-data'>Pressure</button>
 <script>
   document.getElementById("ws-comparison").click();
   document.getElementById("ws-comparison").focus();
-  document.getElementById("met_tab").focus(); 
 </script>
 {% endif %} 
 {% endblock %}

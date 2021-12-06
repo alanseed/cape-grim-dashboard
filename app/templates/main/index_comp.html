@@ -1,4 +1,9 @@
-{% extends 'index_base.html' %}
+{% extends 'index_base.html' %} 
+
+{% block title %} 
+Composition
+{% endblock %} 
+
 {% block content %}
 
 <button type='button' id='radon-data' class='btn btn-outline-primary btn-large rounded'
@@ -13,12 +18,14 @@
     value='neph2_data'>Nephelometer2</button>
 
 <button type='button' id='bc-data' class='btn btn-outline-primary btn-large rounded' value='bc-data'>Black
-    Carbon</button>
+    Carbon</button> 
+
+<button type='button' id='dmtccn-data' class='btn btn-outline-primary btn-large rounded' value='dmtccn-data'>DMT CCN</button>    
 
 <button type='button' id='co2-data' class='btn btn-outline-primary btn-large rounded' value='co2-data'>CO2</button>
 
 <button type='button' id='c-isotopes' class='btn btn-outline-primary btn-large rounded' value='c-isotopes'>C
-    Isotopes</button>
+    Isotopes</button> 
 
 <button type='button' id='n2o-co' class='btn btn-outline-primary btn-large rounded' value='n2o-co'>N2O and CO</button>
 
@@ -56,7 +63,6 @@
 <script>
     document.getElementById("radon-data").click();
     document.getElementById("radon-data").focus();
-    document.getElementById("comp_tab").focus(); 
 </script>
 {% endif %}
 {% endblock %}
