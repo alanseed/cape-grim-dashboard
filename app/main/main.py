@@ -1,8 +1,8 @@
 from flask import (
     Blueprint, flash, g, render_template, request, session, url_for, current_app, jsonify
 )
-from app.db import User, get_user_id, get_chart, is_valid_date
-from app.chart import make_charts 
+from app.db import User, get_user_id, get_chart, is_valid_date, get_latest_chart
+from app.chart import make_charts  
 from app.auth.forms import DateForm
 import datetime
 
@@ -12,12 +12,13 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 @bp.route('/chart')
 def chart():
     chart_name = request.args.get("name")
-    if 'chart_date' in session:
-        chart_date = session['chart_date']
+    if 'date' in session:
+        date = session['date']
     else:
-        chart_date = '2021-06-01'
+        date = get_latest_chart().strftime("%Y-%m-$d")
+        session['date'] = date 
 
-    start_time = datetime.datetime.fromisoformat(chart_date)
+    start_time = datetime.datetime.fromisoformat(date)
     chart_data = get_chart(chart_name, start_time)
 
     response = jsonify(chart_data['Data'])
@@ -53,7 +54,8 @@ def met():
     if 'date' in session:
         date = session['date']
     else:
-        date = '2021-06-01'
+        date = get_latest_chart().strftime("%Y-%m-$d")
+        session['date'] = date 
 
     return render_template('main/index_met.html', init=True, date=date)
 
@@ -70,8 +72,9 @@ def comp():
     if 'date' in session:
         date = session['date']
     else:
-        date = '2021-06-01'
-
+        date = get_latest_chart().strftime("%Y-%m-$d")
+        session['date'] = date 
+       
     return render_template('main/index_comp.html', init=True, date=date)
 
 
@@ -87,7 +90,8 @@ def diag():
     if 'date' in session:
         date = session['date']
     else:
-        date = '2021-06-01'
+        date = get_latest_chart().strftime("%Y-%m-$d")
+        session['date'] = date
 
     return render_template('main/index_diag.html', init=True, date=date)
 

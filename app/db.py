@@ -160,6 +160,12 @@ def is_valid_date(date):
     else:
         return True 
 
+# function to return the date of the latest charts 
+def get_latest_chart():
+    chart = get_db()["chart_data"] 
+    results = chart.find({"StartDate":1}).sort({"StartDate"},-1) 
+    return results[0]
+
 # flask command to initialise the database with the admin user 
 @click.command('init-db')
 @with_appcontext
