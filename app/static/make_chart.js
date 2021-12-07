@@ -5,8 +5,8 @@ for (i = 0; i < b.length; i++){
     b[i].addEventListener("click", function () { makeChart(this.value); })
 }
     
-function makeChart(value) {
-    const url =`/main/chart?chart_name=${value}`
+function makeChart(name) {
+    const url =`/main/chart?name=${name}`
     fetch(url)
         .then((resp) => resp.json())
         .then(function (data) {

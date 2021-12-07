@@ -15,6 +15,10 @@ from app.db import add_chart, get_db
 @click.argument("start")
 @with_appcontext
 def make_charts_command(start):
+    make_charts(start)   
+    return
+
+def make_charts(start):
     # check if we have a valid time string 
     try:
         start_time = datetime.datetime.fromisoformat(start) 
@@ -22,7 +26,7 @@ def make_charts_command(start):
         click.echo("Time format must be yyyy-mm-ddThh:mm:ss")  
         return 
 
-    time_length = datetime.timedelta(days=7)
+    time_length = datetime.timedelta(days=1)
     end_time = start_time + time_length 
     end = end_time.strftime("%Y-%m-%dT%H:%M:%S")
     start = start_time.strftime("%Y-%m-%dT%H:%M:%S")
@@ -40,8 +44,8 @@ def make_charts_command(start):
             # write the chart to the database 
             data = plotly.io.to_json(fig,engine="orjson") 
             print(chart)
-            add_chart(chart,start_time, end_time, data)         
-    return  
+            add_chart(chart,start_time, end_time, data)   
+    return 
 
 def init_app(app):
     app.cli.add_command(make_charts_command)
@@ -135,8 +139,8 @@ def make_chart(chart_name, start, end):
         rangeselector=dict(
             buttons=list([ 
                 dict(count=6,label="6h",step="hour",stepmode="backward"),
-                dict(count=1,label="1d",step="day",stepmode="backward"),
-                dict(count=7,label="7d",step="day",stepmode="backward")
+                dict(count=1,label="12",step="hour",stepmode="backward"),
+                dict(count=7,label="1d",step="day",stepmode="backward")
             ])
         ),
         rangeslider=dict(visible=True),

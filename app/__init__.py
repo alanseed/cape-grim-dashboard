@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, url_for
 from flask_login import LoginManager 
 from flask_cors import CORS  
+from flask_bootstrap import Bootstrap
 
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
@@ -22,6 +23,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True) 
     CORS(app,support_credentials=True) 
+    
 
     # make the name of the config file 
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -53,5 +55,6 @@ def create_app(test_config=None):
     app.register_blueprint(main_bp)
     app.register_blueprint(data_bp)
     login_manager.init_app(app) 
+    Bootstrap(app) 
     
     return app

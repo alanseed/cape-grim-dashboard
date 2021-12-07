@@ -149,6 +149,16 @@ def delete_charts(gen_date):
     result = chart.delete_many(myquery)         
     return result.deleted_count 
 
+# Function returns true if there are charts for date 
+def is_valid_date(date):
+    start_date = datetime.datetime.fromisoformat(date)
+    chart = get_db()["chart_data"] 
+    myquery = {'StartDate':start_date} 
+    result = chart.find_one(myquery) 
+    if result is None:
+        return False
+    else:
+        return True 
 
 # flask command to initialise the database with the admin user 
 @click.command('init-db')

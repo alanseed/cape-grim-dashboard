@@ -43,6 +43,7 @@ def login():
             session.clear()
             session['user_id'] = user_id 
             session['username'] = username
+            session['chart_date'] = '2021-06-01'
             g.user = User(user_id)
             g.username = username 
             return render_template('main/index_met.html',init=True)
@@ -64,6 +65,7 @@ def load_logged_in_user():
         myuser = user_col.find_one(myquery)
         if myuser is None:
             session["user_id"] = None
+            session['chart_date'] = '2021-06-01'
         else:
             g.user = User(user_id)
 
@@ -87,4 +89,4 @@ def login_required(view):
 def close_user():
     session.clear()
     g.user = None 
-    g.username = None 
+    g.username = None  
