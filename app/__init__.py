@@ -49,7 +49,7 @@ def create_app(test_config=None):
         close_user()
         date = get_latest_chart().strftime("%Y-%m-%d")
         session['date'] = date
-        return render_template('main/index_diag.html', init=True, date=date)
+        return render_template('main/index_met.html', init=True, date=date)
 
     db.init_app(app) 
     chart.init_app(app)
