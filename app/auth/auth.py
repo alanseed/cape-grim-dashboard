@@ -3,10 +3,9 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from app.db import get_db, add_user, get_user_id, is_valid_user, User 
+from app.db import get_db, add_user, get_user_id, is_valid_user, User, get_latest_chart
 from app.auth.forms import LoginForm, RegistrationForm
 import functools
-from bson.objectid import ObjectId
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -39,14 +38,17 @@ def login():
         error = is_valid_user(username, password)
 
         if error is None:
-            user_id = get_user_id(username)
-            session.clear()
-            session['user_id'] = user_id 
-            session['username'] = username
-            session['chart_date'] = '2021-06-01'
+            user_id = get_user_id(username) 
             g.user = User(user_id)
             g.username = username 
-            return render_template('main/index_met.html',init=True)
+
+            session.clear()
+            session['user_id'] = user_id 
+            session['username'] = username 
+            date = get_latest_chart().strftime("%Y-%m-%d")
+            session['date'] = date
+
+            return render_template('main/index_met.html',init=True, date=date)
 
         flash(error)
         return render_template('auth/login.html')
@@ -55,26 +57,27 @@ def login():
 # check if session["user_id"] is valid 
 # if not then set session["user_id"] to None 
 @bp.before_app_request
-def load_logged_in_user():
-    db = get_db()
-    g.user = None 
+def load_logged_in_user(): 
     user_id = session.get('user_id') 
+    username = session.get('username')
+
     if user_id is not None:
-        user_col = db["users"]
+        user_col = get_db()["users"]
         myquery = {"_id":user_id} 
         myuser = user_col.find_one(myquery)
-        if myuser is None:
-            session["user_id"] = None
-            session['chart_date'] = '2021-06-01'
+        if myuser is None: 
+            close_user() 
         else:
-            g.user = User(user_id)
+            g.user = User(user_id) 
+            g.username = username
 
 @bp.route('/logout')
 def logout():
-    session.clear()
-    g.user = None 
-    g.username = None
-    return render_template('main/index_met.html', init=True)
+    close_user()
+    date = get_latest_chart().strftime("%Y-%m-%d")
+    session['date'] = date
+
+    return render_template('main/index_met.html', init=True, date=date)
 
 def login_required(view):
     @functools.wraps(view)

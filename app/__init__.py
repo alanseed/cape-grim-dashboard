@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, session, g
 from flask_login import LoginManager 
 from flask_cors import CORS  
 from flask_bootstrap import Bootstrap
@@ -8,7 +8,7 @@ from app.auth.auth import bp as auth_bp
 from app.main.main import bp as main_bp 
 from app.data.data import bp as data_bp 
 from app.auth.auth import close_user 
-from app.db import close_db
+from app.db import close_db, get_latest_chart
 
 from . import db 
 from . import chart 
@@ -46,7 +46,10 @@ def create_app(test_config=None):
     # home page 
     @app.route('/')
     def index():
-        return render_template('main/index_met.html',init=True)
+        close_user()
+        date = get_latest_chart().strftime("%Y-%m-%d")
+        session['date'] = date
+        return render_template('main/index_diag.html', init=True, date=date)
 
     db.init_app(app) 
     chart.init_app(app)
@@ -56,5 +59,4 @@ def create_app(test_config=None):
     app.register_blueprint(data_bp)
     login_manager.init_app(app) 
     Bootstrap(app) 
-    
     return app
