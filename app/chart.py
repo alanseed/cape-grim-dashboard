@@ -1,7 +1,7 @@
 # This module builds the html for a chart 
 import click
 import plotly 
-from flask import current_app, g,session
+from flask import current_app, g, session
 from flask.cli import with_appcontext
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -31,11 +31,12 @@ def make_charts(start):
     end = end_time.strftime("%Y-%m-%dT%H:%M:%S")
     start = start_time.strftime("%Y-%m-%dT%H:%M:%S")
 
-    click.echo(f"make_charts from {start} to {end}")
+    click.echo(f"Making charts for {start}")
 
     # get the list of charts to make 
     chart_list = list_charts()
     for chart in chart_list:
+        click.echo(f"Adding {chart}")
         fig = make_chart(chart, start_time, end_time)  
         if fig is None:
             click.echo("Error making chart")
@@ -43,7 +44,6 @@ def make_charts(start):
         else:
             # write the chart to the database 
             data = plotly.io.to_json(fig,engine="orjson") 
-            print(chart)
             add_chart(chart,start_time, end_time, data)   
     return 
 
@@ -139,8 +139,8 @@ def make_chart(chart_name, start, end):
         rangeselector=dict(
             buttons=list([ 
                 dict(count=6,label="6h",step="hour",stepmode="backward"),
-                dict(count=1,label="12",step="hour",stepmode="backward"),
-                dict(count=7,label="1d",step="day",stepmode="backward")
+                dict(count=12,label="12h",step="hour",stepmode="backward"),
+                dict(count=1,label="1d",step="day",stepmode="backward")
             ])
         ),
         rangeslider=dict(visible=True),

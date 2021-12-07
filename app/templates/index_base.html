@@ -13,11 +13,12 @@
   <nav class="navbar navbar-expand-sm navbar-light bg-primary me-auto" style="--bs-bg-opacity: .5">
     <div class="container-fluid">
       <span class="navbar-brand mt-1 h1">Cape Grim Dashboard</span>
-      <ul class="nav nav-tabs me-auto" id="tab">
+      <ul class="nav me-auto" id="tab">
         <li class="nav_item"><a class="nav-link" href="{{ url_for('main.met') }}"
             id="met_tab">Meteorology</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.comp') }}" id="comp_tab">Composition</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.diag') }}" id="comp_tab">Diagnostics</a></li> 
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.adddate') }}" id="comp_tab">Add charts</a></li> 
       </ul>
 
       <ul class="navbar-nav ms-auto"> 
