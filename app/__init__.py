@@ -7,8 +7,8 @@ from flask_bootstrap import Bootstrap
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
 from app.data.data import bp as data_bp 
-from app.auth.auth import close_user 
-from app.db import close_db, get_latest_chart
+from app.db import close_db, get_latest_chart 
+from app.user import User
 
 from . import db 
 from . import chart 
@@ -17,14 +17,13 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 @login_manager.user_loader 
 def load_user(user_id):
-    return db.get_user(user_id)
+        return User(user_id)
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True) 
     CORS(app,support_credentials=True) 
     
-
     # make the name of the config file 
     basedir = os.path.abspath(os.path.dirname(__file__))
     config_name = os.path.join(basedir,"config.py")
@@ -46,7 +45,6 @@ def create_app(test_config=None):
     # home page 
     @app.route('/')
     def index():
-        close_user()
         date = get_latest_chart().strftime("%Y-%m-%d")
         session['date'] = date
         return render_template('main/index_met.html', init=True, date=date)
