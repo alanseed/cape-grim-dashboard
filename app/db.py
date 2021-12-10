@@ -62,40 +62,9 @@ def add_user(username, password, role, email):
         error = f"User {username} registered."
     return error 
 
-# Check if username, password pair is in the user table 
-# Returns None if pair is valid else the error string 
-def is_valid_user(username,password):
-    user = get_db()["users"]
-    error = None
-
-    # check if the username exists 
-    myquery = {"name":username}
-    mydoc = user.find_one(myquery)
-    if mydoc is None: 
-        error = f"User {username} not found." 
-    elif not check_password_hash(mydoc['password'], password):
-        error = "Incorrect password"
-    return error  
-
-# return the _id for this user 
-def get_user_id(username):
-    user = get_db()["users"]
-    myquery = {"name":username} 
-    myuser = user.find_one(myquery)
-    user_id = str(myuser["_id"])
-    print (f"User id = {user_id}")
-    return user_id
-
 # Read the list of observations and put them into the obs_table 
 def add_observations():
     return 
-
-# return a dictionary of user details for a user_id 
-def get_user(user_id): 
-    user = get_db()["users"]
-    myquery = { "_id":user_id}
-    myuser = user.find_one(myquery) 
-    return myuser
 
 # return a list of obs names 
 def get_obs_list(): 

@@ -1,12 +1,14 @@
-from flask_login import LoginManager, current_user, login_manager, login_user
+from flask_login import LoginManager, current_user, login_manager, login_user, logout_user
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from app.db import get_db, add_user, get_user_id, is_valid_user, get_latest_chart
+from app.db import get_db, get_latest_chart, add_user
 from app.user import User
-from app.auth.forms import LoginForm, RegistrationForm
-import functools
+from app.auth.forms import LoginForm, RegistrationForm 
+from app.auth.Util import is_safe_url
+import functools 
+from datetime import datetime
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -30,28 +32,27 @@ def register():
 
 # save the user id in the session and the user details in g 
 @bp.route('/login', methods=('GET', 'POST'))
-def login():
+def login(): 
+    session.pop('_flashes', None)
     form = LoginForm()
-    error = None 
     if request.method == 'POST':
         username = str(request.form['username'])
         password = str(request.form['password'])
-        error = is_valid_user(username, password)
+        user = User(None) 
+        error = user.get_user(username, password) 
 
-        if error is None:
-            user_id = get_user_id(username) 
-            g.username = username 
-
-            session.clear()
-            session['user_id'] = user_id 
-            session['username'] = username 
-            date = get_latest_chart().strftime("%Y-%m-%d")
-            session['date'] = date
-
+        if error is None: 
+            login_user(user) 
+            flash('Logged in sucessfully') 
+            next = request.args.get('next')
+            if not is_safe_url(next):
+                return abort(400)
+            date = get_latest_chart().strftime("%Y-%m-%d")      
             return render_template('main/index_met.html',init=True, date=date)
 
         flash(error)
-        return render_template('auth/login.html')
+        return render_template('auth/login.html') 
+
     return render_template('auth/login.html') 
 
 # check if session["user_id"] is valid 
@@ -72,10 +73,10 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
-    close_user()
+    session.pop('_flashes', None)
+    logout_user() 
     date = get_latest_chart().strftime("%Y-%m-%d")
     session['date'] = date
-
     return render_template('main/index_met.html', init=True, date=date)
 
 def login_required(view):
@@ -88,7 +89,9 @@ def login_required(view):
 
     return wrapped_view
 
-def close_user():
+def close_user(): 
+    logout_user()
     session.clear()
-    g.user = None 
-    g.username = None  
+
+def init_app(app):
+    app.teardown_appcontext(close_user)    

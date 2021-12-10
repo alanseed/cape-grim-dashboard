@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, g, render_template, request, session, url_for, current_app, jsonify
 )
-from app.db import get_user_id, get_chart, is_valid_date, get_latest_chart, add_chart
+from app.db import get_chart, is_valid_date, get_latest_chart
 from app.user import User 
 from app.chart import make_charts  
 from app.auth.forms import DateForm
@@ -29,19 +29,6 @@ def chart():
 
 @bp.route('/index')
 def index():
-    if 'username' in session:
-        username = session['username']
-        user_id = get_user_id(username)
-        session['user_id'] = user_id
-        g.user = User(user_id)
-        g.username = username
-
-    if 'date' in session:
-        date = session['date']
-    else:
-        date = get_latest_chart().strftime("%Y-%m-%d")
-        session['date'] = date 
-
     return render_template('main/index_met.html', init=True)
 
 
@@ -49,15 +36,8 @@ def index():
 def test():
     return jsonify("test")
 
-
 @bp.route('/met')
 def met():
-    if 'username' in session:
-        username = session['username']
-        user_id = get_user_id(username)
-        session['user_id'] = user_id
-        g.user = User(user_id)
-        g.username = username
 
     if 'date' in session:
         date = session['date']
@@ -70,12 +50,6 @@ def met():
 
 @bp.route('/comp')
 def comp():
-    if 'username' in session:
-        username = session['username']
-        user_id = get_user_id(username)
-        session['user_id'] = user_id
-        g.user = User(user_id)
-        g.username = username
 
     if 'date' in session:
         date = session['date']
@@ -88,12 +62,6 @@ def comp():
 
 @bp.route('/diag')
 def diag():
-    if 'username' in session:
-        username = session['username']
-        user_id = get_user_id(username)
-        session['user_id'] = user_id
-        g.user = User(user_id)
-        g.username = username
 
     if 'date' in session:
         date = session['date']

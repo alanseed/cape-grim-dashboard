@@ -6,7 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.fields.datetime import DateField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from wtforms.widgets.core import DateInput
-from app.db import get_db, is_valid_user
+from app.db import get_db
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])

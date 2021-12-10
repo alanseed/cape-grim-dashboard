@@ -32,22 +32,15 @@ class User( ):
     def check_password(self, password):
         return check_password_hash(self.password, password) 
         
+    # def __init__(self):
+    #     self.clear_user()
+    
     def __init__(self,user_id):
-        self.clear_user()
-        myuser = get_db()['users'].find_one({ "_id":ObjectId(user_id)} )
-        if myuser is None: 
+        if user_id is None:
             self.clear_user()
-        else: 
-            self.id = str(myuser['_id'])
-            self.name = myuser['name'] 
-            self.role = myuser['role'] 
-            self.email = myuser['email']    
-            self.password = myuser['password']      
-            self.authenticated = True      
-            self.anonymous = False    
-            self.active = True
-            self.timestamp = datetime.now()      
-
+        else:    
+            self.get_user_id(user_id)
+ 
     def add_user(self,username, password, role, email):
         hp = generate_password_hash(password)
         user_dict = {"name":username,"password":hp,"role":role,"email":email}
@@ -65,7 +58,7 @@ class User( ):
     def get_user(self, username, password): 
         self.clear_user()
         user = get_db()["users"]
-        myuser = user.find_one({"name":self.username})
+        myuser = user.find_one({"name":username})
         if myuser is None: 
             return f"User {username} not found."
 
@@ -100,6 +93,9 @@ class User( ):
 
     def get_user_id(self, user_id): 
         self.clear_user()
+        if user_id is None: 
+            return
+
         myuser = get_db()['users'].find_one({ "_id":ObjectId(user_id)} )
         if myuser is not None:
             self.id = str(myuser['_id'])
