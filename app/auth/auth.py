@@ -3,7 +3,8 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from app.db import get_db, add_user, get_user_id, is_valid_user, User, get_latest_chart
+from app.db import get_db, add_user, get_user_id, is_valid_user, get_latest_chart
+from app.user import User
 from app.auth.forms import LoginForm, RegistrationForm
 import functools
 
@@ -39,7 +40,6 @@ def login():
 
         if error is None:
             user_id = get_user_id(username) 
-            g.user = User(user_id)
             g.username = username 
 
             session.clear()
@@ -68,7 +68,6 @@ def load_logged_in_user():
         if myuser is None: 
             close_user() 
         else:
-            g.user = User(user_id) 
             g.username = username
 
 @bp.route('/logout')

@@ -1,7 +1,8 @@
 from flask import (
     Blueprint, g, render_template, request, session, url_for, current_app, jsonify
 )
-from app.db import User, get_user_id, get_chart, is_valid_date, get_latest_chart, add_chart
+from app.db import get_user_id, get_chart, is_valid_date, get_latest_chart, add_chart
+from app.user import User 
 from app.chart import make_charts  
 from app.auth.forms import DateForm
 import datetime
