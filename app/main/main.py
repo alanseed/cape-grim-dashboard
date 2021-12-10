@@ -1,15 +1,19 @@
+# Routes to manage the views for the various charts  
+
 from flask import (
     Blueprint, g, render_template, request, session, url_for, current_app, jsonify
-)
+) 
+from flask_login import login_required 
+
 from app.db import get_chart, is_valid_date, get_latest_chart
 from app.user import User 
 from app.chart import make_charts  
-from app.auth.forms import DateForm
+from app.main.forms import DateForm
 import datetime
 
 bp = Blueprint('main', __name__, url_prefix='/main')
 
-
+# Returns the JSON data for the chart from the cache 
 @bp.route('/chart')
 def chart():
     chart_name = request.args.get("name")
@@ -26,16 +30,7 @@ def chart():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-
-@bp.route('/index')
-def index():
-    return render_template('main/index_met.html', init=True)
-
-
-@bp.route('/test')
-def test():
-    return jsonify("test")
-
+# return the view with the weather (meteorological) observations 
 @bp.route('/met')
 def met():
 
@@ -47,7 +42,7 @@ def met():
 
     return render_template('main/index_met.html', init=True, date=date)
 
-
+# return the view with the atmospheric composition (the gasses in the air) observations 
 @bp.route('/comp')
 def comp():
 
@@ -59,7 +54,7 @@ def comp():
        
     return render_template('main/index_comp.html', init=True, date=date)
 
-
+# return the view with the diagnostics for the various instruments 
 @bp.route('/diag')
 def diag():
 
@@ -71,10 +66,10 @@ def diag():
 
     return render_template('main/index_diag.html', init=True, date=date)
 
-# set the session date
 
-
+# select a new date for the charts 
 @bp.route('/setdate', methods=['GET', 'POST'])
+@login_required
 def setdate():
     form = DateForm()
     if request.method == 'POST':
@@ -88,9 +83,10 @@ def setdate():
     else:
         return render_template('main/setdate.html', form=form, title="Select chart date")
 
-# make charts for a date 
-# TO DO - Give progress updates to the user 
-@bp.route('/adddate', methods=['GET','POST'])
+# Add new charts to the cache 
+# TO DO - Restrict this to the admin role only 
+@bp.route('/adddate', methods=['GET','POST']) 
+@login_required
 def adddate():
     form = DateForm()
     if request.method == 'POST':

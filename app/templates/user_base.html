@@ -4,9 +4,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
   <h1>Cape Grim Dashboard User Manager</h1>
-  <ul>
-    {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
+  <ul> 
+    {% if current_user.is_authenticated %}
+      <li><span>{{ current_user.name }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>
@@ -21,5 +21,6 @@
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
   {% endfor %}
-  {% block content %}{% endblock %}
+  {% block content %}{% endblock %} 
+  <a href="{{ url_for('main.met') }}">Home</a> 
 </section>

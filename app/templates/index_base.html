@@ -13,12 +13,12 @@
     <div class="container-fluid">
       <span class="navbar-brand mt-1 h1">Cape Grim Dashboard</span>
       <ul class="nav me-auto" id="tab">
-        <li class="nav_item"><a class="nav-link" href="{{ url_for('main.met') }}" id="met_tab">Meteorology</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.comp') }}" id="comp_tab">Composition</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.diag') }}" id="comp_tab">Diagnostics</a></li>
+        <li class="nav_item"><a class="nav-link" href="{{ url_for('main.met') }}" id="met_tab" data-toggle="tooltip" title="Meteorological charts">Meteorology</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.comp') }}" id="comp_tab" data-toggle="tooltip" title="Atmospheric composition charts">Composition</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.diag') }}" id="comp_tab" data-toggle="tooltip" title="Instrument diagnostic charts">Diagnostics</a></li>
 
         {% if current_user.is_admin %}
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.adddate') }}" id="comp_tab">Add charts</a> </li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.adddate') }}" id="comp_tab" data-toggle="tooltip" title="Add new charts to cache">Add charts</a> </li>
         {% endif %}
 
       </ul>
@@ -26,7 +26,7 @@
       <ul class="navbar-nav ms-auto"> 
 
         {% if current_user.is_authenticated %}
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.setdate') }}">{{ date }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.setdate') }}" data-toggle="tooltip" title="Select date from cache">{{ date }}</a></li>
         {% else %} 
         <span class="navbar-text">{{ date }}</span> 
         {% endif %} 

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, session, g
+from flask import Flask, render_template, session
 from flask_login import LoginManager 
 from flask_cors import CORS  
 from flask_bootstrap import Bootstrap
@@ -7,7 +7,7 @@ from flask_bootstrap import Bootstrap
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
 from app.data.data import bp as data_bp 
-from app.db import close_db, get_latest_chart 
+from app.db import get_latest_chart 
 from app.user import User
 
 from . import db 

@@ -1,3 +1,4 @@
+# WTF Form to manage date requests 
 from flask_wtf import FlaskForm
 from wtforms import SubmitField
 from wtforms.fields.datetime import DateField
