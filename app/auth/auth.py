@@ -1,17 +1,20 @@
+# Routes to manage user registration, login and logout 
+
 from flask_login import LoginManager, current_user, login_manager, login_user, logout_user
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 from app.db import get_db, get_latest_chart, add_user
 from app.user import User
 from app.auth.forms import LoginForm, RegistrationForm 
 from app.auth.Util import is_safe_url
 import functools 
-from datetime import datetime
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+# TO DO - have not set up the email to confirm address etc etc 
+# TO DO - need a way for admin to manage user roles 
+# register a new user, default role = guest. 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     form = RegistrationForm()
@@ -30,7 +33,7 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
 
-# save the user id in the session and the user details in g 
+# user login route 
 @bp.route('/login', methods=('GET', 'POST'))
 def login(): 
     session.pop('_flashes', None)
@@ -43,51 +46,25 @@ def login():
 
         if error is None: 
             login_user(user) 
-            flash('Logged in sucessfully') 
-            next = request.args.get('next')
-            if not is_safe_url(next):
-                return abort(400)
-            date = get_latest_chart().strftime("%Y-%m-%d")      
-            return render_template('main/index_met.html',init=True, date=date)
+            next = request.args.get('next') 
+            if next is not None:
+                if not is_safe_url(next):
+                    return abort(400)  
+                return redirect(next) 
+            else:
+                return redirect(url_for('main.met'))    
 
         flash(error)
         return render_template('auth/login.html') 
 
     return render_template('auth/login.html') 
 
-# check if session["user_id"] is valid 
-# if not then set session["user_id"] to None 
-@bp.before_app_request
-def load_logged_in_user(): 
-    user_id = session.get('user_id') 
-    username = session.get('username')
-
-    if user_id is not None:
-        user_col = get_db()["users"]
-        myquery = {"_id":user_id} 
-        myuser = user_col.find_one(myquery)
-        if myuser is None: 
-            close_user() 
-        else:
-            g.username = username
-
+# user logout route 
 @bp.route('/logout')
 def logout():
     session.pop('_flashes', None)
     logout_user() 
-    date = get_latest_chart().strftime("%Y-%m-%d")
-    session['date'] = date
-    return render_template('main/index_met.html', init=True, date=date)
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
+    return redirect(url_for('main.met'))
 
 def close_user(): 
     logout_user()

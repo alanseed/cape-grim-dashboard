@@ -1,3 +1,5 @@
+# WTF forms to manage users 
+
 # Based on the Flask Mega-Tutorial 
 # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
 
@@ -8,6 +10,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from wtforms.widgets.core import DateInput
 from app.db import get_db
 
+# TO DO - Use the User class to manage user authentication 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -37,7 +40,3 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In') 
-
-class DateForm(FlaskForm):
-    date = DateField(label='Chart Date',validators=[DateInput()])
-    submit=SubmitField('Submit')    

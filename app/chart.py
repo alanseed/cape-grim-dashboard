@@ -1,23 +1,24 @@
 # This module builds the html for a chart 
 import click
 import plotly 
-from flask import current_app, g, session
 from flask.cli import with_appcontext
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import datetime 
-import os
 from app.db import add_chart, get_db
 
-# flask command to make the charts 
+# flask command to make the charts ie flask make-charts from a terminal to generate a cache of charts 
 @click.command('make-charts',help="START: yyyy-mm-ddThh:mm:ss")
 @click.argument("start")
 @with_appcontext
 def make_charts_command(start):
     make_charts(start)   
     return
+def init_app(app):
+    app.cli.add_command(make_charts_command)
 
+# add all the charts for a particular day to the cache 
 def make_charts(start):
     # check if we have a valid time string 
     try:
@@ -47,8 +48,6 @@ def make_charts(start):
             add_chart(chart,start_time, end_time, data)   
     return 
 
-def init_app(app):
-    app.cli.add_command(make_charts_command)
 
 # function to return a list of enabled charts from the database 
 def list_charts():
@@ -84,7 +83,7 @@ def format_title(title):
     
     return title
 
-# function returns a chart as a plotly graphic object 
+# Return a chart as a plotly graphic object that can then be stored in the cache 
 # returns None on error 
 def make_chart(chart_name, start, end):
     db= get_db()
@@ -172,4 +171,3 @@ def make_chart(chart_name, start, end):
     # set the title     
     fig.update_layout(title_text=chart["Title"])     
     return fig             
-
