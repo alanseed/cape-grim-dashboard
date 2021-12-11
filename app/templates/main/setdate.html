@@ -1,22 +1,65 @@
-{% extends "bootstrap/base.html" %} 
+{% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+<head>
+  <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
+</head>
+<script>
 
-      <h1 class="pt-5 pb-2">{{ title }}</h1>
-      {{ wtf.quick_form(form) }}
-      <p class="pt-5"><strong>{{ message }}</strong></p>
-
+</script>
+<body>
+  <div class="container">
+    <div class='row'>
+      <div class="col-sm6">
+        <h1 class="pt-2 pb-2">{{ title }}</h1>
+      </div>
     </div>
-  </div> 
+    <div class="row">
+      <div class="col-sm6">
+        <div id="calId"></div> 
 
-  <div class="row">
-    <a class="btn btn-primary" href="{{ url_for('main.met') }}" role="button">Home</a>
+        <script type="text/javascript"> 
+          fetch("{{ url_for('main.chart_date') }}?start=2021-06-01&end=2021-08-01", {
+            method: "GET",
+            headers: {"Content-type": "application/json;charset=UTF-8"}
+          })
+          .then(response => response.json()) 
+          .then(json => { 
+            cal = new CalHeatMap();
+            cal.init({
+              itemSelector:document.getElementById("calId"),
+              onClick: function(date,nb){ 
+                const offset = date.getTimezoneOffset()
+                utcDate = new Date(date.getTime() - (offset*60*1000))
+                let myDate = utcDate.toISOString().split('T')[0]  
+
+                el = document.getElementById("dateField"); 
+                el.value = myDate ;
+               },
+              domain: "month",
+              subDomain: "day",
+              start: new Date(2021, 5),
+              range:3,
+              data: json});
+          })
+        </script>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm6">
+        {{ wtf.quick_form(form) }}
+      </div>
+    </div>
+    <div class="row mt-2">
+      <a class="btn btn-primary" href="{{ url_for('main.met') }}" role="button">Home</a>
+    </div>
   </div>
-</div>
+</body>
+
 
 {% endblock %}

@@ -5,13 +5,22 @@ from flask import (
 ) 
 from flask_login import login_required 
 
-from app.db import get_chart, is_valid_date, get_latest_chart
+from app.db import get_chart, is_valid_date, get_latest_chart, get_dates 
 from app.user import User 
 from app.chart import make_charts  
 from app.main.forms import DateForm
 import datetime
 
-bp = Blueprint('main', __name__, url_prefix='/main')
+bp = Blueprint('main', __name__, url_prefix='/main') 
+
+@bp.route('/chart_date', methods=['GET','POST'])
+def chart_date(): 
+    start = request.args.get("start") 
+    end = request.args.get("end") 
+    dates = get_dates(start,end) 
+    response = jsonify(dates)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response 
 
 # Returns the JSON data for the chart from the cache 
 @bp.route('/chart')
@@ -99,4 +108,6 @@ def adddate():
             make_charts(date_string)
             return render_template('main/index_met.html', init=True, date=date_string)
     else:
-        return render_template('main/setdate.html', form=form, title="Select date for new charts")
+        return render_template('main/setdate.html', form=form, title="Select date for new charts") 
+
+

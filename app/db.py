@@ -134,6 +134,26 @@ def get_latest_chart():
     result = chart.find().sort("StartDate",-1)[0] 
     return result["StartDate"]
 
+# return a list of time stamps (seconds) that have charts in the cache 
+def get_dates(start,end): 
+    # get the charts for these dates 
+    start_date = datetime.datetime.fromisoformat(start) 
+    end_date = datetime.datetime.fromisoformat(end) 
+    chart = get_db()['chart_data'] 
+    myquery = {'StartDate':{"$gte":start_date, "$lte":end_date}}
+    results = chart.find(myquery).sort("StartDate")         
+
+    #build a list of the dates 
+    dates = {}
+    for res in results: 
+        this_date = int(res['StartDate'].timestamp())
+        timestamp = str(this_date)
+        if timestamp not in dates: 
+            dates[timestamp] = 1 
+        else: 
+            dates[timestamp] += 1             
+    return dates 
+
 # flask command to initialise the database with the admin user 
 @click.command('init-db')
 @with_appcontext
