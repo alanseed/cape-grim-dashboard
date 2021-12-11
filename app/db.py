@@ -147,8 +147,11 @@ def get_dates(start,end):
     dates = {}
     for res in results: 
         this_date = int(res['StartDate'].timestamp())
-        if this_date not in dates: 
-            dates[str(this_date)]=10
+        timestamp = str(this_date)
+        if timestamp not in dates: 
+            dates[timestamp] = 1 
+        else: 
+            dates[timestamp] += 1             
     return dates 
 
 # flask command to initialise the database with the admin user 

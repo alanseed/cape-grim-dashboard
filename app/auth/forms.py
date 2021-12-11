@@ -5,9 +5,7 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.fields.datetime import DateField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from wtforms.widgets.core import DateInput
 from app.db import get_db
 
 # TO DO - Use the User class to manage user authentication 

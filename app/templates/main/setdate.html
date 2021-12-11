@@ -15,15 +15,15 @@
   <div class="container">
     <div class='row'>
       <div class="col-sm6">
-        <h1 class="pt-5 pb-2">{{ title }}</h1>
+        <h1 class="pt-2 pb-2">{{ title }}</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-sm6">
-        <div id="cal-heatmap"></div> 
+        <div id="calId"></div> 
 
         <script type="text/javascript"> 
-          fetch('http://127.0.0.1:5000/main/chart_date?start=2021-06-01&end=2021-08-01', {
+          fetch("{{ url_for('main.chart_date') }}?start=2021-06-01&end=2021-08-01", {
             method: "GET",
             headers: {"Content-type": "application/json;charset=UTF-8"}
           })
@@ -31,9 +31,19 @@
           .then(json => { 
             cal = new CalHeatMap();
             cal.init({
+              itemSelector:document.getElementById("calId"),
+              onClick: function(date,nb){ 
+                const offset = date.getTimezoneOffset()
+                utcDate = new Date(date.getTime() - (offset*60*1000))
+                let myDate = utcDate.toISOString().split('T')[0]  
+
+                el = document.getElementById("dateField"); 
+                el.value = myDate ;
+               },
               domain: "month",
               subDomain: "day",
               start: new Date(2021, 5),
+              range:3,
               data: json});
           })
         </script>
@@ -43,10 +53,9 @@
     <div class="row">
       <div class="col-sm6">
         {{ wtf.quick_form(form) }}
-        <p class="pt-5"><strong>{{ message }}</strong></p>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-2">
       <a class="btn btn-primary" href="{{ url_for('main.met') }}" role="button">Home</a>
     </div>
   </div>
