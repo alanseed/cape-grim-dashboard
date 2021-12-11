@@ -72,30 +72,15 @@ class User( ):
             self.password = myuser['password']      
             self.active = True      
             self.anonymous = False 
-            self.authenticated = True   
+            self.authenticated = True    
+            self.administrator = self.is_admin()
             self.timestamp = datetime.now()      
             return None         
-
-    # def get_user_name(self, username):
-    #     user = get_db()["users"]
-    #     myuser = user.find_one({"name":username}) 
-    #     if myuser is None:
-    #         return None
-    #     else: 
-    #         self.id = str(myuser['_id'])
-    #         self.name = myuser['name'] 
-    #         self.role = myuser['role'] 
-    #         self.email = myuser['email']    
-    #         self.password = myuser['password']      
-    #         self.active = True      
-    #         self.isAdmin = False      
-    #         self.timestamp = datetime.now()      
 
     def get_user_id(self, user_id): 
         self.clear_user()
         if user_id is None: 
             return
-
         myuser = get_db()['users'].find_one({ "_id":ObjectId(user_id)} )
         if myuser is not None:
             self.id = str(myuser['_id'])
@@ -106,6 +91,7 @@ class User( ):
             self.active = True      
             self.anonymous = False
             self.authenticated = True    
+            self.administrator = self.is_admin()
             self.timestamp = datetime.now()      
 
     def clear_user(self):
@@ -117,4 +103,5 @@ class User( ):
         self.active = False       
         self.anonymous = True
         self.authenticated = False   
+        self.administrator = False 
         self.timestamp = None      
