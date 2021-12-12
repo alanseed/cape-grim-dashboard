@@ -6,7 +6,6 @@ from flask_bootstrap import Bootstrap
 
 from app.auth.auth import bp as auth_bp 
 from app.main.main import bp as main_bp 
-from app.data.data import bp as data_bp 
 from app.db import get_latest_chart 
 from app.user import User
 
@@ -47,7 +46,6 @@ def create_app(test_config=None):
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
-    app.register_blueprint(data_bp)
     login_manager.init_app(app) 
     Bootstrap(app) 
     return app
