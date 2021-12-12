@@ -137,9 +137,12 @@ def is_valid_date(date):
 
 # function to return the date of the latest charts 
 def get_latest_chart():
-    chart = get_db()["chart_data"] 
-    result = chart.find().sort("StartDate",-1)[0] 
-    return result["StartDate"]
+    if get_db()["chart_data"].count_documents() > 0:
+        chart = get_db()["chart_data"] 
+        result = chart.find().sort("StartDate",-1)[0] 
+        return result["StartDate"]
+    else:
+        return None        
 
 # return a list of time stamps (seconds) that have charts in the cache 
 def get_dates(start,end): 
