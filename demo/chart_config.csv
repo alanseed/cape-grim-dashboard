@@ -1,0 +1,177 @@
+,ChartName,L/R,Legend,Enable,Title,LeftTitle,LeftLog,LeftMin,LeftMax,RightTitle,RightLog,RightMin,RightMax,DataName
+0,wd-comparison,,wd10,1,Wind Direction Comparison   ,WD (\N{DEGREE SIGN}),,0,360,,,,,wd_comp_wd10_mean 
+1,wd-comparison,,wd30,1,Wind Direction Comparison   ,WD (\N{DEGREE SIGN}),,0,360,,,,,wd_comp_wd30_mean 
+2,wd-comparison,,wd50,1,Wind Direction Comparison   ,WD (\N{DEGREE SIGN}),,0,360,,,,,wd_comp_wd50_mean 
+3,wd-comparison,,wd70,1,Wind Direction Comparison   ,WD (\N{DEGREE SIGN}),,0,360,,,,,wd_comp_wd70_mean 
+4,wd-comparison,,Almos2,1,Wind Direction Comparison   ,WD (\N{DEGREE SIGN}),,0,360,,,,,wd_comp_Almos2_WindDir 
+5,wd-comparison,,Almos1,1,Wind Direction Comparison   ,WD (\N{DEGREE SIGN}),,0,360,,,,,wd_comp_Almos1_WindDir 
+6,wd-hourly,,smwd10,1,Hourly Wind Direction   ,WD (\N{DEGREE SIGN}),,0,360,,,,,smwd10_wd10_sm 
+7,wd-hourly,,vmwd10,1,Hourly Wind Direction   ,WD (\N{DEGREE SIGN}),,0,360,,,,,vmwd10_wd10_vm 
+8,wd-hourly,,smwd30,1,Hourly Wind Direction   ,WD (\N{DEGREE SIGN}),,0,360,,,,,smwd30_wd30_sm 
+9,wd-hourly,,vmwd30,1,Hourly Wind Direction   ,WD (\N{DEGREE SIGN}),,0,360,,,,,vmwd30_wd30_vm 
+10,wd-hourly,,smwd50,1,Hourly Wind Direction   ,WD (\N{DEGREE SIGN}),,0,360,,,,,smwd50_wd50_sm 
+11,wd-hourly,,vmwd50,1,Hourly Wind Direction   ,WD (\N{DEGREE SIGN}),,0,360,,,,,vmwd50_wd50_vm 
+12,ws-comparison,,ws10Rimco,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_Rimco_ws10
+13,ws-comparison,,ws10,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_ws10_mean*3.6 
+14,ws-comparison,,ws30,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_ws30_mean*3.6 
+15,ws-comparison,,ws50,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_ws50_mean*3.6 
+16,ws-comparison,,ws70,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_ws70_mean*3.6 
+17,ws-comparison,,Almos2,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_Almos2_WindSpeed*1.852 
+18,ws-comparison,,Almos1,1,Wind Speed Comparison   ,km/h,,,,,,,,ws_comp_Almos1_WindSpeed*1.852 
+19,ws-hourly,,smws10,1,Hourly Wind Speed   ,km/h,,,,,,,,smws10_ws10_sm 
+20,ws-hourly,,vmws10,1,Hourly Wind Speed   ,km/h,,,,,,,,vmws10_ws10_vm 
+21,ws-hourly,,smws30,1,Hourly Wind Speed   ,km/h,,,,,,,,smws30_ws30_sm 
+22,ws-hourly,,vmws30,1,Hourly Wind Speed   ,km/h,,,,,,,,vmws30_ws30_vm 
+23,ws-hourly,,smws50,1,Hourly Wind Speed   ,km/h,,,,,,,,smws50_ws50_sm 
+24,ws-hourly,,vmws50,1,Hourly Wind Speed   ,km/h,,,,,,,,vmws50_ws50_vm 
+25,wind-combined,L,wd30,1,Combined Wind ,WD (\N{DEGREE SIGN}),,0,360,km/h,,,,wd30_wd_mean
+26,wind-combined,L,Almos2WD,1,Combined Wind ,WD (\N{DEGREE SIGN}),,0,360,km/h,,,,Almos2WD_WindDir 
+27,wind-combined,L,Almos1WD,1,Combined Wind ,WD (\N{DEGREE SIGN}),,0,360,km/h,,,,Almos1WD_WindDir 
+28,wind-combined,R,ws30,1,Combined Wind ,WD (\N{DEGREE SIGN}),,0,360,km/h,,,,ws30_ws_mean*3.6 
+29,wind-combined,R,Almos2WS,1,Combined Wind ,WD (\N{DEGREE SIGN}),,0,360,km/h,,,,Almos2WS_WindSpeed*1.852 
+30,wind-combined,R,Almos1WS,1,Combined Wind ,WD (\N{DEGREE SIGN}),,0,360,km/h,,,,Almos1WS_WindSpeed*1.852 
+31,radon-data,,BHURD,1,Radon   ,Preliminary Radon Concentration,1,,,,,,,BHURD_LogRadon 
+32,radon-data,,HURD3,1,Radon   ,Preliminary Radon Concentration,1,,,,,,,HURD3_LogRadon 
+33,radon-data-linear,,BHURD,1,Radon - Linear Scale,Preliminary Radon Concentration,,,,,,,,BHURD_Radon 
+34,radon-data-linear,,HURD3,1,Radon - Linear Scale,Preliminary Radon Concentration,,,,,,,,HURD3_Radon 
+35,bhurd-pressflow,L,BHURDExFlow,1,BHURD Pressure and Flow   ,Litres/minute,,,,Pa,,,,BHURDExFlow_ExFlow 
+36,bhurd-pressflow,R,BHURDTankP,1,BHURD Pressure and Flow   ,Litres/minute,,,,Pa,,,,BHURDTankP_TankP 
+37,hurd3-pressflow,L,HURD3ExFlow,1,HURD3 Pressure and Flow   ,Litres/minute,,,,Pa,,,,HURD3ExFlow_ExFlow 
+38,hurd3-pressflow,R,HURD3TankP,1,HURD3 Pressure and Flow   ,Litres/minute,,,,Pa,,,,HURD3TankP_TankP 
+39,particle-data,,HourlyMax,1,Particle Data   ,CN/cc,1,,,,,,,HourlyMax_tsi_max 
+40,particle-data,,HourlyMin,1,Particle Data   ,CN/cc,1,,,,,,,HourlyMin_tsi_min 
+41,particle-data,,HourlyMean,1,Particle Data   ,CN/cc,1,,,,,,,HourlyMean_tsi_median 
+42,particle-data,,TSI3010,1,Particle Data   ,CN/cc,1,,,,,,,TSI3010_UCN 
+43,particle-data,,TSI37762,1,Particle Data   ,CN/cc,1,,,,,,,TSI37762_UCN 
+44,particle-data,,TSI3772,1,Particle Data   ,CN/cc,1,,,,,,,TSI3772_UCN 
+45,particle-data,,TSI3756,1,Particle Data   ,CN/cc,1,,,,,,,TSI3756_UCN 
+46,neph-data,L,AirTemp,1,Nephelometer,\N{DEGREE SIGN} C,,,,-,,,,Neph_AirTemp 
+47,neph-data,L,CellTemp,1,Nephelometer,\N{DEGREE SIGN} C,,,,-,,,,Neph_CellTemp 
+48,neph-data,R,Humidity,1,Nephelometer,\N{DEGREE SIGN} C,,,,-,,,,Neph_Humidity 
+49,neph-data,R,635nmScattering,1,Nephelometer,\N{DEGREE SIGN} C,,,,-,,,,635nmScattering_Scattering 
+50,neph-data,R,525nmScattering,1,Nephelometer,\N{DEGREE SIGN} C,,,,-,,,,525nmScattering_Scattering2 
+51,neph-data,R,450nmScattering,1,Nephelometer,\N{DEGREE SIGN} C,,,,-,,,,450nmScattering_Scattering3 
+52,neph2_data,L,TScatt635nm,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,TScatt635nm_sp1_0 
+53,neph2_data,L,TScatt525nm,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,TScatt525nm_sp2_0 
+54,neph2_data,L,TScatt450nm,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,TScatt450nm_sp3_0 
+55,neph2_data,L,BScatt635nm,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,BScatt635nm_sp1_90 
+56,neph2_data,L,BScatt525nm,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,BScatt525nm_sp2_90 
+57,neph2_data,L,BScatt450nm,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,BScatt450nm_sp3_90 
+58,neph2_data,R,SampleTemp,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,Neph2_SampleTemp 
+59,neph2_data,R,SampleRH,1,Nephelometer 2,Mm^{-1},,,,\N{DEGREE SIGN} C / %,,,,Neph2_SampleRH 
+60,bc-data,L,Airflow,1,Black Carbon Data   ,cc/min,,,,ng/m^3,,,,bc_Airflow_airflow
+61,bc-data,R,Bcmass,1,Black Carbon Data   ,cc/min,,,,ng/m^3,,,,BC(mass)_conc 
+62,bc-diag,L,OrificePress,1,Black Carbon Diagnostics   ,hPa,,,,\N{DEGREE SIGN} C,,,,OrificePress_press_orifice 
+63,bc-diag,L,PumpPress,1,Black Carbon Diagnostics   ,hPa,,,,\N{DEGREE SIGN} C,,,,PumpPress_press_pump 
+64,bc-diag,L,BaroPress,1,Black Carbon Diagnostics   ,hPa,,,,\N{DEGREE SIGN} C,,,,BaroPress_press_baro 
+65,bc-diag,R,OutsideTemp,1,Black Carbon Diagnostics   ,hPa,,,,\N{DEGREE SIGN} C,,,,OutsideTemp_temp_outside 
+66,bc-diag,R,HeadTemp,1,Black Carbon Diagnostics   ,hPa,,,,\N{DEGREE SIGN} C,,,,HeadTemp_temp_head 
+67,bc-diag,R,SystemTemp,1,Black Carbon Diagnostics   ,hPa,,,,\N{DEGREE SIGN} C,,,,SystemTemp_temp_system 
+68,dmtccn-data,,DMTCCN1,1,DMT CCN ,count,,,,,,,,DMTCCN1_CCN_Count 
+69,dmtccn-data,,DMTCCN2,1,DMT CCN ,count,,,,,,,,DMTCCN2_CCN_Count 
+70,tap-data,L,SampleFlow,0,TAP ,L/minute,,,,\N{DEGREE SIGN} C,,,,TAP_SampleFlow 
+71,tap-data,R,SampleTemp,0,TAP ,L/minute,,,,\N{DEGREE SIGN} C,,,,TAP_SampleTemp 
+72,co2-data,,HourlyMax,1,CO_2 ,ppm,,,,,,,,HourlyMax_co2_max 
+73,co2-data,,HourlyMin,1,CO_2 ,ppm,,,,,,,,HourlyMin_co2_min 
+74,co2-data,,HourlyMean,1,CO_2 ,ppm,,,,,,,,HourlyMean_co2_mean 
+75,co2-data,,Picarro1CO2Dry,1,CO_2 ,ppm,,,,,,,,Picarro1CO_2Dry_CO2_dry 
+76,co2-data,,Picarro2CO2Dry,1,CO_2 ,ppm,,,,,,,,Picarro2CO_2Dry_CO2_dry 
+77,co2-data,,Loflo,1,CO_2 ,ppm,,,,,,,,Loflo_CO2 
+78,c-isotopes,L,16O-12C-16O,1,C Isotopes ,Abundance,,360,460,\N{DEGREE SIGN} C,,,,c-iso_16O-12C-16O
+79,c-isotopes,L,16O-12C-17O,1,C Isotopes ,Abundance,,360,460,\N{DEGREE SIGN} C,,,,c-iso_16O-12C-17O
+80,c-isotopes,L,16O-12C-18O,1,C Isotopes ,Abundance,,360,460,\N{DEGREE SIGN} C,,,,c-iso_16O-12C-18O
+81,c-isotopes,L,16O-13C-16O,1,C Isotopes ,Abundance,,360,460,\N{DEGREE SIGN} C,,,,c-iso_16O-13C-16O
+82,c-isotopes,R,Fridge1,1,C Isotopes ,Abundance,,360,460,\N{DEGREE SIGN} C,,,,Fridge1_Isotopes
+83,c-isotopes,R,Fridge2,1,C Isotopes ,Abundance,,360,460,\N{DEGREE SIGN} C,,,,Fridge2_Isotopes
+84,picarro-ch4-water,L,Picarro1Water,1,Picarro CH_4 and Water,%,,,,ppb,,,,Picarro1Water_H2O 
+85,picarro-ch4-water,L,Picarro2Water,1,Picarro CH_4 and Water,%,,,,ppb,,,,Picarro2Water_H2O 
+86,picarro-ch4-water,L,PicarroN2O-COWater,1,Picarro CH_4 and Water,%,,,,ppb,,,,PicarroN_2O-COWater_H2O/10000 
+87,picarro-ch4-water,R,Picarro1CH4,1,Picarro CH_4 and Water,%,,,,ppb,,,,Picarro1CH_4_CH4_Dry*1000 
+88,picarro-ch4-water,R,Picarro2CH4,1,Picarro CH_4 and Water,%,,,,ppb,,,,Picarro2CH_4_CH4_Dry*1000 
+89,picarro-ch4-water,R,CH4GCMD,1,Picarro CH_4 and Water,%,,,,ppb,,,,Picarro_CH4GCMD
+90,n2o-co,L,N2OGCMD,1,N_2O and CO,ppb,,,,ppb,,,,N_2OGCMD_bc 
+91,n2o-co,L,N2OPicarro,1,N_2O and CO,ppb,,,,ppb,,,,N_2OPicarro_N2O_Dry 
+92,n2o-co,R,COGCMD,1,N_2O and CO,ppb,,,,ppb,,,,COGCMD_bc 
+93,n2o-co,R,COPicarro,1,N_2O and CO,ppb,,,,ppb,,,,COPicarro_CO_Dry 
+94,gcmd-data-1,L,CFC-11c,1,GCMD Page 1,ppb/ppt,,,,ppb/ppt,,,,CFC-11c_bc 
+95,gcmd-data-1,R,CCl4c,1,GCMD Page 1,ppb/ppt,,,,ppb/ppt,,,,CCl_4c_bc 
+96,gcmd-data-2,,H2PDDc,1,GCMD Page 2,ppb,,,,,,,,H_2PDDc_bc 
+97,medusa-data-1,L,SF6c,1,Medusa Page 1,ppt,,,,ppt,,,,SF_6c_bc 
+98,medusa-data-1,L,HFC-32c,1,Medusa Page 1,ppt,,,,ppt,,,,HFC-32c_bc 
+99,medusa-data-1,R,CF4c,1,Medusa Page 1,ppt,,,,ppt,,,,CF_4c_bc 
+100,medusa-data-1,R,HFC-134ac,1,Medusa Page 1,ppt,,,,ppt,,,,HFC-134ac_bc 
+101,medusa-data-2,L,PCEc,1,Medusa Page 2,ppt,,,,ppt,,,,PCEc_bc 
+102,medusa-data-2,L,HFC-236fac,1,Medusa Page 2,ppt,,,,ppt,,,,HFC-236fac_bc 
+103,medusa-data-2,R,CFC-12c,1,Medusa Page 2,ppt,,,,ppt,,,,CFC-12c_bc 
+104,medusa-data-2,R,HCFC-22c,1,Medusa Page 2,ppt,,,,ppt,,,,HCFC-22c_bc 
+105,ozone-data,,Teco4,1,Ozone,ppb,,,,,,,,Teco4_Ozone 
+106,ozone-data,,Teco6,1,Ozone,ppb,,,,,,,,Teco6_Ozone 
+107,ozone-data,,Teco7,1,Ozone,ppb,,,,,,,,Teco7_Ozone 
+108,ozone-data,,TC3,1,Ozone,ppb,,,,,,,,TC3_Ozone 
+109,ozone-data,,TC4,1,Ozone,ppb,,,,,,,,TC4_Ozone 
+110,noxy-data,L,CH1Hz,0,NO_{xy} ,Hz,,,5000,Hz,,,30000,Noxy_CH1
+111,noxy-data,R,CH1Hz,0,NO_{xy} ,Hz,,,5000,Hz,,,30000,Noxy_CH1a 
+112,noxy-data-0200-0600,L,CH1Hz,0,NO_{xy}  0200->0600,Hz,,,5000,Hz,,,30000,Noxy26_CH1
+113,noxy-data-0200-0600,R,CH1Hz,0,NO_{xy}  0200->0600,Hz,,,5000,Hz,,,30000,Noxy26_CH1a  
+114,noxy-cal-flow,,NOCalFlow,1,AQD NO Cal Flow,sccm,,-1,10,,,,,NOCalFlow_NO_Cal_Flow 
+115,noxy-other-flows,L,InletSampleFlow,1,AQD Sample and Oxygen Flow,sccm,,600,1200,sccm,,0,200,InletSampleFlow_Inlet_SampleFlow_1 
+116,noxy-other-flows,R,OxygenFlow,1,AQD Sample and Oxygen Flow,sccm,,600,1200,sccm,,0,200,OxygenFlow_OxygenFlow_1 
+117,eco-nox-data,L,RawCount,1,Eco NO_x,count,,,40000,count,,,5000,Eco_RawCount 
+118,eco-nox-data,R,RawCount,1,Eco NO_x,count,,,40000,count,,,5000,Eco_RawCounta 
+119,eco-nox-cal,L,RawCount,1,Eco NO_x Cal 0200-0600,count,,,40000,count,,,5000,Eco26_RawCount
+120,eco-nox-cal,R,RawCount,1,Eco NO_x Cal 0200-0600,count,,,40000,count,,,5000,Eco26_RawCounta 
+121,eco-nox-temp,,InternalTemp,1,Eco NO_x Temperatures   ,\N{DEGREE SIGN} C,,10,65,,,,,Eco_internal_temp
+122,eco-nox-temp,,InletTemp,1,Eco NO_x Temperatures   ,\N{DEGREE SIGN} C,,10,65,,,,,Eco_InletTemp 
+123,eco-nox-temp,,ReactChamberTemp,1,Eco NO_x Temperatures   ,\N{DEGREE SIGN} C,,10,65,,,,,Eco_ReactChamberTemp
+124,eco-nox-temp,,PhotoConvTemp,1,Eco NO_x Temperatures   ,\N{DEGREE SIGN} C,,10,65,,,,,Eco_PhotoConvTemp 
+125,eco-nox-press,L,InletPressure,1,Eco NO_x Pressures   ,mbar,,300,1100,mbar,,25,90,Eco_InletPressure 
+126,eco-nox-press,L,PLCPressure,1,Eco NO_x Pressures   ,mbar,,300,1100,mbar,,25,90,Eco_PLCPressure 
+127,eco-nox-press,R,PreReactorPressure,1,Eco NO_x Pressures   ,mbar,,300,1100,mbar,,25,90,Eco_PreReactorPressure
+128,eco-nox-press,R,ReactChamberPressure,1,Eco NO_x Pressures   ,mbar,,300,1100,mbar,,25,90,Eco_ReactChamberPressure 
+129,thermo-nox-data,,NO,0,Thermo NO_x,ppb,,,,,,,,Thermo_NO 
+130,thermo-nox-data,,NO2,0,Thermo NO_x,ppb,,,,,,,,Thermo_NO2 
+131,thermo-nox-data,,NOx,0,Thermo NO_x,ppb,,,,,,,,Thermo_NOx 
+132,nox-pressure,L,NOxOzoniserPress,1,NO_x Pressure,hPa,,,,hPa,,,,noxpres_Ozoniser_Press
+133,nox-pressure,R,NOxVacuumPress,1,NO_x Pressure,hPa,,,,hPa,,,,noxpres_xVacuumPress  
+134,nox-flow,L,MassFlow,1,NO_x Flow ,Litres/minute,,,,psi/\N{DEGREE SIGN} C,,,,noxflow_MassFlow
+135,nox-flow,L,VolumeFlow,1,NO_x Flow ,Litres/minute,,,,psi/\N{DEGREE SIGN} C,,,,noxflow_VolumeFlow 
+136,nox-flow,R,Press,1,NO_x Flow ,Litres/minute,,,,psi/\N{DEGREE SIGN} C,,,,noxflow_press 
+137,nox-flow,R,Temp,1,NO_x Flow ,Litres/minute,,,,psi/\N{DEGREE SIGN} C,,,,noxflow_temp 
+138,mercury-data,,Tekran1A,1,Mercury ,ng/m^3,,0,2,,,,,merc_Tekran1A_Conc 
+139,mercury-data,,Tekran1B,1,Mercury,ng/m^3,,0,2,,,,,merc_Tekran1B_Conc
+140,mercury-data,,Tekran2A,1,Mercury,ng/m^3,,0,2,,,,,merc_Tekran2A_Conc 
+141,mercury-data,,Tekran2B,1,Mercury ,ng/m^3,,0,2,,,,,merc_Tekran2B_Conc 
+142,mercury-data,,TekranAA,1,Mercury ,ng/m^3,,0,2,,,,,merc_TekranAA_Conc 
+143,mercury-data,,TekranAB,1,Mercury ,ng/m^3,,0,2,,,,,merc_TekranAB_Conc 
+144,merc-fullscale-data,,Tekran1A,1,Mercury (full scale)   ,ng/m^3,,,,,,,,Tekran1A_Conc 
+145,merc-fullscale-data,,Tekran1B,1,Mercury (full scale)   ,ng/m^3,,,,,,,,Tekran1B_Conc 
+146,merc-fullscale-data,,Tekran2A,1,Mercury (full scale)   ,ng/m^3,,,,,,,,Tekran2A_Conc 
+147,merc-fullscale-data,,Tekran2B,1,Mercury (full scale)   ,ng/m^3,,,,,,,,Tekran2B_Conc 
+148,merc-fullscale-data,,TekranAA,1,Mercury (full scale)   ,ng/m^3,,,,,,,,TekranAA_Conc 
+149,merc-fullscale-data,,TekranAB,1,Mercury (full scale)   ,ng/m^3,,,,,,,,TekranAB_Conc 
+150,biometer-data,L,BiometerTemp,0,Biometer ,\N{DEGREE SIGN} C,,,,Voltage,,,,BiometerTemp_temp  
+151,biometer-data,R,Biometer,0,Biometer ,\N{DEGREE SIGN} C,,,,Voltage,,,,Biometer_temp  
+152,temperature-data,,HourlyMax,1,Temperature ,\N{DEGREE SIGN} C,,,,,,,,HourlyMax_dbt_max 
+153,temperature-data,,HourlyMin,1,Temperature ,\N{DEGREE SIGN} C,,,,,,,,HourlyMin_dbt_min 
+154,temperature-data,,HourlyMean,1,Temperature ,\N{DEGREE SIGN} C,,,,,,,,HourlyMean_dbt_mean 
+155,temperature-data,,Almos2DBT,1,Temperature ,\N{DEGREE SIGN} C,,,,,,,,Almos2DBT_Temperature 
+156,temperature-data,,Almos1DBT,1,Temperature ,\N{DEGREE SIGN} C,,,,,,,,Almos1DBT_Temperature 
+157,dewpoint-data,,HourlyMax,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,HourlyMax_dewpt_max 
+158,dewpoint-data,,HourlyMin,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,HourlyMin_dewpt_min 
+159,dewpoint-data,,HourlyMean,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,HourlyMean_dewpt_mean 
+160,dewpoint-data,,GEDewpoint,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,GEDewpoint_Dewpoint 
+161,dewpoint-data,,PAXDewpoint,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,PAXDewpoint_Dewpoint 
+162,dewpoint-data,,Almos2,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,Almos2_DewPoint 
+163,dewpoint-data,,Almos1,1,Dew Point ,\N{DEGREE SIGN} C,,,,,,,,Almos1_DewPoint 
+164,pressure-data,,HourlyMax,1,Atmospheric Pressure  ,hPa,,,,,,,,HourlyMax_press_max 
+165,pressure-data,,HourlyMin,1,Atmospheric Pressure  ,hPa,,,,,,,,HourlyMin_press_min 
+166,pressure-data,,HourlyMean,1,Atmospheric Pressure  ,hPa,,,,,,,,HourlyMean_press_mean 
+167,pressure-data,,DAS,1,Atmospheric Pressure  ,hPa,,,,,,,,DAS_pressure  
+168,pressure-data,,BlackCarbon,1,Atmospheric Pressure  ,hPa,,,,,,,,BlackCarbon_press_baro 
+169,pressure-data,,Almos2,1,Atmospheric Pressure  ,hPa,,,,,,,,Almos2_StationPressure 
+170,pressure-data,,Almos1,1,Atmospheric Pressure  ,hPa,,,,,,,,Almos1_StationPressure 
+171,labtemp-data,,MainLab,1,Lab Temperature  ,\N{DEGREE SIGN} C,,,,,,,,MainLab_temp  
+172,labtemp-data,,ChemLab,1,Lab Temperature  ,\N{DEGREE SIGN} C,,,,,,,,ChemLab_temp  
+173,labtemp-data,,CompressorRoom,1,Lab Temperature  ,\N{DEGREE SIGN} C,,,,,,,,CompressorRoom_temp 
+174,stationair-data,,Pressure,1,Station Air Pressure   ,bar,,,,,,,,stationair_Pressure 
+175,70m-co2-flowrate,,Flow,1,70m CO_2 flowrate   ,m/s,,,,,,,,70m-co2_Flow 

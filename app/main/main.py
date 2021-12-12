@@ -3,7 +3,7 @@
 from flask import (
     Blueprint, g, render_template, request, session, url_for, current_app, jsonify
 ) 
-from flask_login import login_required 
+from flask_login import login_required,current_user 
 
 from app.db import get_chart, is_valid_date, get_latest_chart, get_dates 
 from app.user import User 
@@ -93,21 +93,21 @@ def setdate():
         return render_template('main/setdate.html', form=form, title="Select chart date")
 
 # Add new charts to the cache 
-# TO DO - Restrict this to the admin role only 
 @bp.route('/adddate', methods=['GET','POST']) 
 @login_required
 def adddate():
-    form = DateForm()
-    if request.method == 'POST':
-        date = form.date.data
-        if is_valid_date(str(date)):
-            return render_template('main/setdate.html', form=form, title="Add charts", message="Date already in database")
+    if current_user.administrator:
+        form = DateForm()
+        if request.method == 'POST':
+            date = form.date.data
+            if is_valid_date(str(date)):
+                return render_template('main/setdate.html', form=form, title="Add charts", message="Date already in database")
+            else:
+                date_string = date.strftime("%Y-%m-%d")
+                session['date'] = date_string 
+                make_charts(date_string)
+                return render_template('main/index_met.html', init=True, date=date_string)
         else:
-            date_string = date.strftime("%Y-%m-%d")
-            session['date'] = date_string 
-            make_charts(date_string)
-            return render_template('main/index_met.html', init=True, date=date_string)
+            return render_template('main/setdate.html', form=form, title="Select date for new charts") 
     else:
-        return render_template('main/setdate.html', form=form, title="Select date for new charts") 
-
-
+        return ("<h1>Access denied: Do not have admin role</h1>") 

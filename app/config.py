@@ -8,7 +8,10 @@ DEBUG=True
 FLASK_ENV='development'
 
 SECRET_KEY=environ.get('SECRET_KEY')
-USERNAME=environ.get('USERNAME')
-PASSWORD=environ.get('PASSWORD') 
-MONGO_USER=environ.get('MONGO_USER')
-MONGO_PASS=environ.get('MONGO_PASS')
+DB_URI=environ.get('DB_URI')
+DB_NAME=environ.get('DB_NAME') 
+
+# USERNAME=environ.get('USERNAME')
+# PASSWORD=environ.get('PASSWORD') 
+# MONGO_USER=environ.get('MONGO_USER')
+# MONGO_PASS=environ.get('MONGO_PASS')

@@ -27,14 +27,7 @@ def create_app(test_config=None):
     # make the name of the config file 
     basedir = os.path.abspath(os.path.dirname(__file__))
     config_name = os.path.join(basedir,"config.py")
-    app.config.from_pyfile(config_name, silent=True)
-
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+    app.config.from_pyfile(config_name)
 
     # ensure the instance folder exists
     try:

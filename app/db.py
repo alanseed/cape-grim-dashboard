@@ -8,12 +8,16 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
 import datetime 
+from os import environ
 
 def get_db():
+    DB_URI=environ.get('DB_URI')
+    DB_NAME=environ.get('DB_NAME')  
+
     if 'client' not in g:
-        g.client = pymongo.MongoClient("mongodb://localhost:27017/") 
+        g.client = pymongo.MongoClient(DB_URI) 
     if 'db' not in g:
-        g.db = g.client["cg_data"] 
+        g.db = g.client[DB_NAME] 
     return g.db
 
 def close_db(e=None):
@@ -26,20 +30,23 @@ def close_db(e=None):
 # also creates the cg-data database if required 
 def init_db():
     # check if cg_data exists and if yes delete it 
-    client = pymongo.MongoClient("mongodb://localhost:27017/") 
+    DB_URI=environ.get('DB_URI')
+    DB_NAME=environ.get('DB_NAME')  
+
+    client = pymongo.MongoClient(DB_URI) 
     database_list = client.database_names()
 
-    if "cg_data" in database_list:
-        client.drop_database("cg_data")
+    if DB_NAME in database_list:
+        client.drop_database(DB_NAME)
 
     # make the database     
-    db = client["cg_data"]
+    db = client[DB_NAME]
     g.client = client
     g.db = db 
     
     #add the default admin user 
-    username ="admin"
-    password="admin"
+    username =environ.get('ADMIN_NAME') 
+    password=environ.get('ADMIN_PW')
     role="admin"
     email="admin@email.address"
     print(add_user(username,password,role,email))
@@ -78,8 +85,8 @@ def get_obs_list():
 # return a list dictionaries {time, value}
 def get_vals(obs_name, start_time, end_time):
     obs_data = get_db()["obs_data"]
-    myquery = {'Name':obs_name,'Time':{'$gte':start_time,"$lte":end_time}}
-    results = obs_data.find(myquery)
+    myquery = {'DataName':obs_name,'Time':{'$gte':start_time,"$lte":end_time}}
+    results = obs_data.find(myquery).sort('Time')
     data = []
     for doc in results:
         rec = {"Time":doc["Time"], "Value":doc["Value"]} 
@@ -130,9 +137,12 @@ def is_valid_date(date):
 
 # function to return the date of the latest charts 
 def get_latest_chart():
-    chart = get_db()["chart_data"] 
-    result = chart.find().sort("StartDate",-1)[0] 
-    return result["StartDate"]
+    if get_db()["chart_data"].count_documents() > 0:
+        chart = get_db()["chart_data"] 
+        result = chart.find().sort("StartDate",-1)[0] 
+        return result["StartDate"]
+    else:
+        return None        
 
 # return a list of time stamps (seconds) that have charts in the cache 
 def get_dates(start,end): 

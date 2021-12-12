@@ -1,6 +1,16 @@
 # Python script to load data into the sql data base
 # The collections are dropped and the data reloaded
+# Assumes that all the csv files are in ../demo 
+# Reads the chart configuration file demo/chart_config.csv 
+# Observation time series data are read as csv files 
+# [Start time].cgbaps.[chart name].[legend name].csv 
+# 
+# In the case of the demo files, these have been generated using 
+# export_data.py based on the initial 1-year data drop  
 # The chart configuration file is found at app/chart_config.csv 
+
+# Writes to the cg_demo collection on URI "mongodb://localhost:27017/" 
+
 import pymongo
 import os
 import pandas as pd
@@ -18,11 +28,11 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 chart_config_name = os.path.normpath(os.path.join(
     dir_path, "../app/chart_config.csv"))
 obs_data_path = os.path.normpath(os.path.join(
-    dir_path, "../data"))
+    dir_path, "../demo"))
 
 # set up the database collections - drop if they exist
 client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["cg_data"]
+db = client["cg_demo"]
 col_names = db.list_collection_names()
 
 if "charts" in table_list:
@@ -32,7 +42,8 @@ if "charts" in table_list:
 
     # load the chart configurations
     charts_df = pd.read_csv(chart_config_name)
-    charts_df.rename(columns={"Unnamed: 0":"Index"}, inplace=True)
+    charts_df.rename(columns={"Unnamed: 0":"Index"}, inplace=True) 
+    charts_df["DataName"].str.strip()
     print(charts_df.info())
 
     if charts_df["DataName"].is_unique: 
@@ -74,9 +85,8 @@ if "obs_data" in table_list:
             message = f"Could not find Chart {chart_name} and Legend = {legend} combo in the charts database"
             sys.exit(message) 
         data_name = chart["DataName"]
+        obs_df = pd.read_csv(full_path, parse_dates=['Time'],date_parser=lambda x: pd.to_datetime(x, utc=True))
 
-        obs_df = pd.read_csv(full_path, header=None, names=names, dtype=dtypes, parse_dates=parse_dates,
-                             date_parser=lambda x: pd.to_datetime(x, utc=True))
         nrecs = 0
         rec_list = []
         for irec in obs_df.index:
