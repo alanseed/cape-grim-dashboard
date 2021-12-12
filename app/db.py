@@ -8,12 +8,16 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
 import datetime 
+from os import environ
 
 def get_db():
+    DB_URI=environ.get('DB_URI')
+    DB_NAME=environ.get('DB_NAME')  
+
     if 'client' not in g:
-        g.client = pymongo.MongoClient("mongodb://localhost:27017/") 
+        g.client = pymongo.MongoClient(DB_URI) 
     if 'db' not in g:
-        g.db = g.client["cg_data"] 
+        g.db = g.client[DB_NAME] 
     return g.db
 
 def close_db(e=None):
@@ -26,20 +30,23 @@ def close_db(e=None):
 # also creates the cg-data database if required 
 def init_db():
     # check if cg_data exists and if yes delete it 
-    client = pymongo.MongoClient("mongodb://localhost:27017/") 
+    DB_URI=environ.get('DB_URI')
+    DB_NAME=environ.get('DB_NAME')  
+
+    client = pymongo.MongoClient(DB_URI) 
     database_list = client.database_names()
 
-    if "cg_data" in database_list:
-        client.drop_database("cg_data")
+    if DB_NAME in database_list:
+        client.drop_database(DB_NAME)
 
     # make the database     
-    db = client["cg_data"]
+    db = client[DB_NAME]
     g.client = client
     g.db = db 
     
     #add the default admin user 
-    username ="admin"
-    password="admin"
+    username =environ.get('ADMIN_NAME') 
+    password=environ.get('ADMIN_PW')
     role="admin"
     email="admin@email.address"
     print(add_user(username,password,role,email))

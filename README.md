@@ -57,6 +57,15 @@ Run `flask init-db` to make the *cg_data* database and initialise the *users* co
 Use the jupyter notebook  notebooks/make_chart_config.ipynb to clean up  `CGBAPS_Daily_Reports.csv` and `CGBAPS-DailyReportPlots.csv` and output `temp.csv`.  
 Open the output file temp.csv, make any changes as required, for example the Legend and DataName might need to be modified to match the input data file names. Save edited file as `app/chart_config.csv` 
 
+### Configuring the application 
+The configurations for the app are found in the `app/.env` file. The  file needs to contain the following  
+
+SECRET_KEY= your secret key 
+DB_URL= URL to the MongoDB database  
+DB_NAME= the name of the collection 
+ADMIN_NAME= the name for the admin user that is installed by init-db 
+ADMIN_PW= the password for the admin user that is installed by init-db 
+
 ## Loading the database
 Run `pgm/load_charts.py charts` to generate the charts collection in the database  
 - `app/chart_config.csv` &emsp; Input csv configuration file  
