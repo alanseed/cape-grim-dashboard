@@ -1,5 +1,6 @@
 # Local data 
 data/
+demo/
 instance/
 charts/
 .vscode
