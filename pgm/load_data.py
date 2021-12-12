@@ -32,7 +32,8 @@ if "charts" in table_list:
 
     # load the chart configurations
     charts_df = pd.read_csv(chart_config_name)
-    charts_df.rename(columns={"Unnamed: 0":"Index"}, inplace=True)
+    charts_df.rename(columns={"Unnamed: 0":"Index"}, inplace=True) 
+    charts_df["DataName"].str.strip()
     print(charts_df.info())
 
     if charts_df["DataName"].is_unique: 
