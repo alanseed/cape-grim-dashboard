@@ -24,7 +24,7 @@ def get_vals(db, obs_name, start_time, end_time):
 # read in the path for the exported csv files 
 args = sys.argv
 if len(args) == 1: 
-    rel_path = '../export_data' 
+    rel_path = '../demo' 
     start_date = '2021-07-01' 
     end_date = '2021-07-10'  
 else: 
@@ -66,6 +66,7 @@ for chart in chart_list:
     obs = get_vals(db, chart['DataName'],start, end)  
 
     # put it into a dataframe and write out as a csv file 
-    obs_df = pd.DataFrame(obs) 
-    obs_df.to_csv(file_path,index=False)
+    if len(obs) > 0:
+        obs_df = pd.DataFrame(obs) 
+        obs_df.to_csv(file_path,index=False)
  
