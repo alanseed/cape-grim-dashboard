@@ -37,8 +37,9 @@ def create_app(test_config=None):
     # home page 
     @app.route('/')
     def index():
-        date = get_latest_chart().strftime("%Y-%m-%d")
-        session['date'] = date
+        date = get_latest_chart()
+        if date is not None:
+            session['date'] = date.strftime("%Y-%m-%d") 
         return render_template('main/index_met.html', init=True, date=date)
 
     db.init_app(app) 
