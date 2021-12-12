@@ -64,7 +64,6 @@ From the `cape-grim-dashboard`
 `pip install -r requirements.txt` to load the required environment  
 
 ## Configuring the application   
-The configurations for the app are found in the `app/.env` file. The file needs to contain the following  
 Add your configuration settings    
 Create a `.env` file in the `app` directory with the following  
 
@@ -79,11 +78,12 @@ Run `flask init-db` to make the *cg_data* database and initialize the *users* co
 
 ## Loading the demo data set 
 A data  for the period 1-10 July 2021 can be found in the `demo` directory  
-Run `pgm/load_data.py` to load the demo data into the `cg-demo` collection at URI `mongodb://localhost:27017/`  
+Run `pgm/load_data.py` to load the demo data into the `cg-demo` collection at URI `mongodb://localhost:27017/`     
+Run `flask make-charts 2021-07-01` etc to load up the chart cache  
 
 ## Making the chart cache   
 There are 2 ways to generate the charts in the cache: 
-Run `flask make-charts [start time as yyyy.mm.dd]`, or  
+Run `flask make-charts [start time as yyyy.mm.dd]`, or    
 Start the dashboard and logon as admin and use the 'Add charts' tab to select a day  
 
 
