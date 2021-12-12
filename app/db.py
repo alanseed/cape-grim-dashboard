@@ -85,8 +85,8 @@ def get_obs_list():
 # return a list dictionaries {time, value}
 def get_vals(obs_name, start_time, end_time):
     obs_data = get_db()["obs_data"]
-    myquery = {'Name':obs_name,'Time':{'$gte':start_time,"$lte":end_time}}
-    results = obs_data.find(myquery)
+    myquery = {'DataName':obs_name,'Time':{'$gte':start_time,"$lte":end_time}}
+    results = obs_data.find(myquery).sort('Time')
     data = []
     for doc in results:
         rec = {"Time":doc["Time"], "Value":doc["Value"]} 
