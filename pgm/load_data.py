@@ -1,7 +1,15 @@
 # Python script to load data into the sql data base
 # The collections are dropped and the data reloaded
+# Assumes that all the csv files are in ../demo 
+# Reads the chart configuration file demo/chart_config.csv 
+# Observation time series data are read as csv files 
+# [Start time].cgbaps.[chart name].[legend name].csv 
+# 
+# In the case of the demo files, these have been generated using 
+# export_data.py based on the initial 1-year data drop  
 # The chart configuration file is found at app/chart_config.csv 
-# Reads the data from ../demo and writes to cg_demo collection 
+
+# Writes to the cg_demo collection on URI "mongodb://localhost:27017/" 
 
 import pymongo
 import os
