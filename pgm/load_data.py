@@ -1,6 +1,8 @@
 # Python script to load data into the sql data base
 # The collections are dropped and the data reloaded
 # The chart configuration file is found at app/chart_config.csv 
+# Reads the data from ../demo and writes to cg_demo collection 
+
 import pymongo
 import os
 import pandas as pd
@@ -18,11 +20,11 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 chart_config_name = os.path.normpath(os.path.join(
     dir_path, "../app/chart_config.csv"))
 obs_data_path = os.path.normpath(os.path.join(
-    dir_path, "../data"))
+    dir_path, "../demo"))
 
 # set up the database collections - drop if they exist
 client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["cg_data"]
+db = client["cg_demo"]
 col_names = db.list_collection_names()
 
 if "charts" in table_list:
@@ -75,9 +77,8 @@ if "obs_data" in table_list:
             message = f"Could not find Chart {chart_name} and Legend = {legend} combo in the charts database"
             sys.exit(message) 
         data_name = chart["DataName"]
+        obs_df = pd.read_csv(full_path, parse_dates=['Time'],date_parser=lambda x: pd.to_datetime(x, utc=True))
 
-        obs_df = pd.read_csv(full_path, header=None, names=names, dtype=dtypes, parse_dates=parse_dates,
-                             date_parser=lambda x: pd.to_datetime(x, utc=True))
         nrecs = 0
         rec_list = []
         for irec in obs_df.index:
