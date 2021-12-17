@@ -1,0 +1,13 @@
+[Unit]
+Description=cg_dash web application
+After=network.target
+[Service]
+Type=simple
+User=awseed
+Group=awseed
+RuntimeDirectory=/home/awseed/src/cape-grim-dashboard
+WorkingDirectory=/home/awseed/src/cape-grim-dashboard 
+ExecStart=/usr/local/bin/gunicorn --chdir /home/awseed/src/cape-grim-dashboard  cgdash:app
+Restart=no
+[Install]
+WantedBy=multi-user.target
