@@ -31,7 +31,7 @@ obs_data_path = os.path.normpath(os.path.join(
     dir_path, "../demo"))
 
 # set up the database collections - drop if they exist
-client = pymongo.MongoClient("mongodb://localhost:27017/")
+client = pymongo.MongoClient("mongodb+srv://alan_seed:mong-2l2nS33d@cluster0.t8pfk.mongodb.net/CGBAPS-DASH?retryWrites=true&w=majority")
 db = client["cg_demo"]
 col_names = db.list_collection_names()
 
