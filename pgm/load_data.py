@@ -15,6 +15,7 @@ import pymongo
 import os
 import pandas as pd
 import sys
+from os import environ 
 
 # read in the tables to be re-loaded
 table_list = sys.argv
@@ -31,8 +32,11 @@ obs_data_path = os.path.normpath(os.path.join(
     dir_path, "../demo"))
 
 # set up the database collections - drop if they exist
-client = pymongo.MongoClient("mongodb+srv://alan_seed:mong-2l2nS33d@cluster0.t8pfk.mongodb.net/CGBAPS-DASH?retryWrites=true&w=majority")
-db = client["cg_demo"]
+DB_URI=environ.get('DB_URI')
+DB_NAME=environ.get('DB_NAME')  
+
+client = pymongo.MongoClient(DB_URI)
+db = client[DB_NAME]
 col_names = db.list_collection_names()
 
 if "charts" in table_list:
