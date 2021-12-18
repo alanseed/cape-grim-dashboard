@@ -1,0 +1,13 @@
+
+module my-gunicorn 1.0;
+
+require {
+	type init_t;
+	type user_home_t;
+	class file execute;
+	class lnk_file read;
+}
+
+#============= init_t ==============
+allow init_t user_home_t:file execute;
+allow init_t user_home_t:lnk_file read;
