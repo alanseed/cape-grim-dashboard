@@ -15,7 +15,13 @@ import pymongo
 import os
 import pandas as pd
 import sys
-from os import environ 
+from os import environ,path 
+from dotenv import load_dotenv 
+
+# read in the environment 
+basedir = path.abspath(path.dirname(__file__))
+env_name =path.normpath(path.join(basedir, '../app/.env')) 
+load_dotenv(env_name)
 
 # read in the tables to be re-loaded
 table_list = sys.argv
@@ -32,8 +38,11 @@ obs_data_path = os.path.normpath(os.path.join(
     dir_path, "../demo"))
 
 # set up the database collections - drop if they exist
-DB_URI=environ.get('DB_URI')
-DB_NAME=environ.get('DB_NAME')  
+DB_URI=str(environ.get('DB_URI'))
+DB_NAME=str(environ.get('DB_NAME'))
+print(f"URI = {DB_URI}, Name = {DB_NAME}") 
+if (DB_URI is None) or (DB_NAME is None):
+    exit 
 
 client = pymongo.MongoClient(DB_URI)
 db = client[DB_NAME]
