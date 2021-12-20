@@ -5,11 +5,11 @@ from flask.cli import with_appcontext
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-import datetime 
+from datetime import datetime,timedelta 
 from app.db import add_chart, get_db
 
 # flask command to make the charts ie flask make-charts from a terminal to generate a cache of charts 
-@click.command('make-charts',help="START: yyyy-mm-ddThh:mm:ss")
+@click.command('make-charts',help="START: yyyy-mm-dd")
 @click.argument("start")
 @with_appcontext
 def make_charts_command(start):
@@ -20,14 +20,8 @@ def init_app(app):
 
 # add all the charts for a particular day to the cache 
 def make_charts(start):
-    # check if we have a valid time string 
-    try:
-        start_time = datetime.datetime.fromisoformat(start) 
-    except Exception as e:
-        click.echo("Time format must be yyyy-mm-ddThh:mm:ss")  
-        return 
-
-    time_length = datetime.timedelta(days=1)
+    start_time = datetime.strptime(start,"%Y-%m-%d") 
+    time_length = timedelta(days=1)
     end_time = start_time + time_length 
     end = end_time.strftime("%Y-%m-%dT%H:%M:%S")
     start = start_time.strftime("%Y-%m-%dT%H:%M:%S")
