@@ -6,7 +6,7 @@ for (i = 0; i < b.length; i++){
 }
     
 function makeChart(name) {
-    const url =`/main/chart?name=${name}`
+    const url =`chart?name=${name}`
     fetch(url)
         .then((resp) => resp.json())
         .then(function (data) {

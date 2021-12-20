@@ -9,7 +9,7 @@ from app.db import get_chart, is_valid_date, get_latest_chart, get_dates
 from app.user import User 
 from app.chart import make_charts  
 from app.main.forms import DateForm
-import datetime
+from datetime import datetime
 
 bp = Blueprint('main', __name__, url_prefix='/main') 
 
@@ -32,7 +32,7 @@ def chart():
         date = get_latest_chart().strftime("%Y-%m-%d")
         session['date'] = date 
 
-    start_time = datetime.datetime.fromisoformat(date)
+    start_time = datetime.strptime(date,"%Y-%m-%d")
     chart_data = get_chart(chart_name, start_time)
 
     response = jsonify(chart_data['Data'])
