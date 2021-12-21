@@ -7,7 +7,7 @@ from flask.cli import with_appcontext
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash, generate_password_hash
 import json
-import datetime 
+from  datetime import datetime
 from os import environ
 
 def get_db():
@@ -126,7 +126,7 @@ def delete_charts(gen_date):
 
 # Function returns true if there are charts for date 
 def is_valid_date(date):
-    start_date = datetime.datetime.fromisoformat(date)
+    start_date = datetime.strptime(date,"%Y-%m-%d")
     chart = get_db()["chart_data"] 
     myquery = {'StartDate':start_date} 
     result = chart.find_one(myquery) 
@@ -147,8 +147,8 @@ def get_latest_chart():
 # return a list of time stamps (seconds) that have charts in the cache 
 def get_dates(start,end): 
     # get the charts for these dates 
-    start_date = datetime.datetime.fromisoformat(start) 
-    end_date = datetime.datetime.fromisoformat(end) 
+    start_date = datetime.strptime(start,"%Y-%m-%d") 
+    end_date = datetime.strptime(end,"%Y-%m-%d") 
     chart = get_db()['chart_data'] 
     myquery = {'StartDate':{"$gte":start_date, "$lte":end_date}}
     results = chart.find(myquery).sort("StartDate")         
