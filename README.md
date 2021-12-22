@@ -83,12 +83,9 @@ Run `flask make-charts 2021-07-01` etc to load up the chart cache
 
 ## Making the chart cache   
 There are 2 ways to generate the charts in the cache: 
-Run `flask make-charts [start time as yyyy.mm.dd]`, or    
-Start the dashboard and logon as admin and use the 'Add charts' tab to select a day  
+`cd cape-grim-dashoard` change diectory to the base directory  
+`source venv/bin/activate` to set up the Python environment  
+`flask make-charts [date] where date is yyyy-mm-dd 
 
-
-
-
-
-
-
+If the mongo database is local then  
+Start the dashboard and logon as admin and use the 'Add charts' tab to select a day if the database is local.  
