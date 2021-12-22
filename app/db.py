@@ -103,7 +103,7 @@ def add_chart(chart_name, start_time, end_time, fig):
         "ChartName":chart_name, 
         "StartDate":start_time, 
         "EndDate":end_time, 
-        "GenTime":datetime.datetime.utcnow(), 
+        "GenTime":datetime.utcnow(), 
         "Data":fig
     }
     user_id = chart.insert_one(chart_dict).inserted_id
@@ -124,7 +124,7 @@ def delete_charts(gen_date):
     result = chart.delete_many(myquery)         
     return result.deleted_count 
 
-# Function returns true if there are charts for date 
+# Function returns true if there are charts for date string 
 def is_valid_date(date):
     start_date = datetime.strptime(date,"%Y-%m-%d")
     chart = get_db()["chart_data"] 
