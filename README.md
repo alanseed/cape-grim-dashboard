@@ -82,7 +82,7 @@ Run `pgm/load_data.py` to load the demo data into the `cg-demo` collection at UR
 Run `flask make-charts 2021-07-01` etc to load up the chart cache  
 
 ## Making the chart cache   
-There are 2 ways to generate the charts in the cache: 
+There are 2 ways to generate the charts in the cache:   
 `cd cape-grim-dashoard` change diectory to the base directory  
 `source venv/bin/activate` to set up the Python environment  
 `flask make-charts [date] where date is yyyy-mm-dd 
