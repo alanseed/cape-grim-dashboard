@@ -1,7 +1,7 @@
 # Routes to manage the views for the various charts  
 
 from flask import (
-    Blueprint, g, render_template, request, session, url_for, current_app, jsonify
+    Blueprint, g, render_template, request, session, url_for, current_app, jsonify,redirect
 ) 
 from flask_login import login_required,current_user 
 
@@ -86,7 +86,7 @@ def setdate():
         if is_valid_date(str(date)): 
             date_string = date.strftime("%Y-%m-%d")
             session['date'] = date_string
-            return render_template('main/index_met.html', init=True, date=date_string)
+            return redirect('met')
         else:
             return render_template('main/setdate.html', form=form, title="Select chart date", message="Date not found")
     else:
@@ -106,7 +106,7 @@ def adddate():
                 date_string = date.strftime("%Y-%m-%d")
                 session['date'] = date_string 
                 make_charts(date_string)
-                return render_template('main/index_met.html', init=True, date=date_string)
+                return redirect('met')
         else:
             return render_template('main/setdate.html', form=form, title="Select date for new charts") 
     else:
