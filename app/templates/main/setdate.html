@@ -29,7 +29,7 @@
           })
           .then(response => response.json()) 
           .then(json => { 
-            cal = new CalHeatMap();
+	    cal = new CalHeatMap();
             cal.init({
               itemSelector:document.getElementById("calId"),
               onClick: function(date,nb){ 

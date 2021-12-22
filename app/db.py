@@ -151,7 +151,11 @@ def get_dates(start,end):
     end_date = datetime.strptime(end,"%Y-%m-%d") 
     chart = get_db()['chart_data'] 
     myquery = {'StartDate':{"$gte":start_date, "$lte":end_date}}
-    results = chart.find(myquery).sort("StartDate")         
+    number_docs = chart.count_documents(filter=myquery) 
+    if number_docs is None:
+        return None 
+
+    results = chart.find(myquery,{"StartDate":1}).sort("StartDate",pymongo.ASCENDING)         
 
     #build a list of the dates 
     dates = {}

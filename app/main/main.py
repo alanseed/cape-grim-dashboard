@@ -16,7 +16,7 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 @bp.route('/chart_date', methods=['GET','POST'])
 def chart_date(): 
     start = request.args.get("start") 
-    end = request.args.get("end") 
+    end = request.args.get("end")  
     dates = get_dates(start,end) 
     response = jsonify(dates)
     response.headers.add('Access-Control-Allow-Origin', '*')
