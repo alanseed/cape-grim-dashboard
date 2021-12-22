@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, redirect
 from flask_login import LoginManager 
 from flask_cors import CORS  
 from flask_bootstrap import Bootstrap
@@ -8,6 +8,7 @@ from app.auth.auth import bp as auth_bp
 from app.main.main import bp as main_bp 
 from app.db import get_latest_chart 
 from app.user import User
+from datetime import datetime 
 
 from . import db 
 from . import chart 
@@ -37,10 +38,11 @@ def create_app(test_config=None):
     # home page 
     @app.route('/')
     def index():
-        date = get_latest_chart()
+        date = get_latest_chart().strftime("%Y-%m-%d")
         if date is not None:
-            session['date'] = date.strftime("%Y-%m-%d") 
-        return render_template('main/index_met.html', init=True, date=date)
+            session['date'] = date 
+        return redirect('main/met')
+        # return render_template('main/index_met.html', init=True, date=date)
 
     db.init_app(app) 
     chart.init_app(app)
