@@ -59,6 +59,7 @@ The dashboard creates the MongoDB database *cg_data* to manage the data and the 
 ## Configuring the Python environment 
 The Python environment is managed by venv and the environment requirements are found in the `requirements.txt` file   
 From the `cape-grim-dashboard`  
+`python3 -m pip install --upgrade pip` to make sure that you are using the latest pip installer 
 `python -m venv venv` to generate the virtual environment for the application, then   
 `source venv/bin/activate` to activate the environment (LINUX)  or `source venv/Scripts/activate` if using bash on windows  
 `pip install -r requirements.txt` to load the required environment  
@@ -89,3 +90,9 @@ There are 2 ways to generate the charts in the cache:
 
 If the mongo database is local then  
 Start the dashboard and logon as admin and use the 'Add charts' tab to select a day if the database is local.  
+
+## Runing the web page
+### Development web page on local host 
+`cd cape-grim-dashoard` change diectory to the base directory   
+`flask run`  run the web page then 
+Use your web browser to open the url `http://127.0.0.1:5000` or `localhost:5000` to view the dashboard 
