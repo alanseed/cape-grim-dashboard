@@ -1,0 +1,12 @@
+pymongo
+click 
+flask
+flask_login
+flask_wtf
+flask_cors
+flask_bootstrap
+plotly
+numpy
+wtforms
+werkzeug
+python-dotenv
