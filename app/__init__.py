@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, session, redirect
+from flask import Flask, session, redirect
 from flask_login import LoginManager 
 from flask_cors import CORS  
 from flask_bootstrap import Bootstrap

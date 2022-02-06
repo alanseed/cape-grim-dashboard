@@ -8,7 +8,6 @@ from app.db import get_db, get_latest_chart, add_user
 from app.user import User
 from app.auth.forms import LoginForm, RegistrationForm 
 from app.auth.Util import is_safe_url
-import functools 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
